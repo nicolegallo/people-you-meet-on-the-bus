@@ -80,7 +80,6 @@ Rather than focusing on schedules and directions, this project focuses on **huma
 - React
 - Vite
 - Leaflet
-- React Leaflet
 - Supabase
 - OpenStreetMap
 - IndyGIS Route Data
