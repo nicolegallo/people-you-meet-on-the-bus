@@ -163,7 +163,7 @@ async function loadStops() {
           <Marker key={story.id} position={[story.lat, story.lng]}>
             <Popup>
               <div className="story-popup">
-                {story.route && <p className="popup-route">Route {story.route}</p>}
+                {story.route && <p className="popup-route">Route: {story.route}</p>}
 
                 <p className="popup-story">“{story.story_text}”</p>
 
