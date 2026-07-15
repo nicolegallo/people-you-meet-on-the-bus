@@ -104,3 +104,80 @@ button {
   color: #666;
   margin: 0;
 }
+
+.open-story-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  width: auto;
+  margin: 0;
+  padding: 0.8rem 1.1rem;
+  border: none;
+  border-radius: 999px;
+  background: #111;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+.story-form {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  left: auto;
+  bottom: auto;
+  z-index: 1100;
+  width: min(390px, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  margin: 0;
+}
+
+.close-form-button {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #333;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.map-message {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  z-index: 1200;
+  transform: translateX(-50%);
+  max-width: calc(100% - 2rem);
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  background: white;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .story-form {
+    top: auto;
+    right: 0.75rem;
+    left: 0.75rem;
+    bottom: 0.75rem;
+    width: auto;
+    max-height: 75vh;
+  }
+
+  .open-story-button {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+}

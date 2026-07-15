@@ -24,10 +24,11 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon
 
 
-function LocationPicker({ setSelectedPosition }) {
+function LocationPicker({ setSelectedPosition, setIsFormOpen }) {
   useMapEvents({
     click(e) {
       setSelectedPosition(e.latlng)
+      setIsFormOpen(false)
     },
   })
 
@@ -44,6 +45,7 @@ const [stopsGeoJson, setStopsGeoJson] = useState(null)
   const [route, setRoute] = useState('')
   const [isAnonymous, setIsAnonymous] = useState(true)
   const [message, setMessage] = useState('')
+  const [isFormOpen, setIsFormOpen] = useState(false)
 
  useEffect(() => {
   fetchApprovedStories()
@@ -114,6 +116,7 @@ async function loadStops() {
     setRoute('')
     setIsAnonymous(true)
     setSelectedPosition(null)
+    setIsFormOpen(false)
     setMessage('Story submitted. It will appear after approval.')
   }
 
@@ -155,7 +158,10 @@ async function loadStops() {
   />
 )}
 
-        <LocationPicker setSelectedPosition={setSelectedPosition} />
+        <LocationPicker
+  setSelectedPosition={setSelectedPosition}
+  setIsFormOpen={setIsFormOpen}
+/>
 
         {selectedPosition && <Marker position={selectedPosition} />}
 
@@ -178,7 +184,26 @@ async function loadStops() {
         ))}
       </MapContainer>
 
-      <form className="story-form" onSubmit={submitStory}>
+      {selectedPosition && !isFormOpen && (
+  <button
+    type="button"
+    className="open-story-button"
+    onClick={() => setIsFormOpen(true)}
+  >
+    Add Story
+  </button>
+)}
+
+      {isFormOpen && (
+  <form className="story-form" onSubmit={submitStory}>
+    <button
+  type="button"
+  className="close-form-button"
+  onClick={() => setIsFormOpen(false)}
+  aria-label="Close story form"
+>
+  ×
+</button>
         <h1>People You Meet on the Bus</h1>
         <p>Tap the map, then share an IndyGo story.</p>
 
@@ -213,8 +238,9 @@ async function loadStops() {
 
         <button type="submit">Submit Story</button>
 
-        {message && <p className="message">{message}</p>}
+        {message && <div className="map-message">{message}</div>}
       </form>
+      )}
     </div>
   )
 }
