@@ -8,20 +8,32 @@ import {
   useMapEvents,
 } from 'react-leaflet'
 import L from 'leaflet'
+import busStopMarker from './assets/bus-stop-marker.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import 'leaflet/dist/leaflet.css'
 import './App.css'
 import { supabase } from './supabaseClient'
 
+const storyIcon = L.icon({
+  iconUrl: busStopMarker,
+  iconSize: [32, 47],
+iconAnchor: [20, 60],
+popupAnchor: [0, -52],
+})
+
+/*
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
 })
+  
 
 L.Marker.prototype.options.icon = DefaultIcon
+*/
+
 
 
 function LocationPicker({ setSelectedPosition, setIsFormOpen }) {
@@ -166,7 +178,11 @@ async function loadStops() {
         {selectedPosition && <Marker position={selectedPosition} />}
 
         {approvedStories.map((story) => (
-          <Marker key={story.id} position={[story.lat, story.lng]}>
+          <Marker
+  key={story.id}
+  position={[story.lat, story.lng]}
+  icon={storyIcon}
+>
             <Popup>
               <div className="story-popup">
                 {story.route && <p className="popup-route">Route: {story.route}</p>}
