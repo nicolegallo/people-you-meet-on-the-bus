@@ -22,7 +22,7 @@ iconAnchor: [20, 60],
 popupAnchor: [0, -52],
 })
 
-/*
+
 const DefaultIcon = L.icon({
   iconUrl: markerIcon,
   shadowUrl: markerShadow,
@@ -32,7 +32,6 @@ const DefaultIcon = L.icon({
   
 
 L.Marker.prototype.options.icon = DefaultIcon
-*/
 
 
 
