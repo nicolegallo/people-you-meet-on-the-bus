@@ -139,19 +139,23 @@ async function loadStops() {
         zoom={12}
         className="map"
       >
+        
         <TileLayer
-          attribution="&copy; OpenStreetMap contributors"
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+  url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+  subdomains="abcd"
+/>
 
 {routesGeoJson && (
   <GeoJSON
     data={routesGeoJson}
-    style={{
-      color: '#1f5f9c',
-      weight: 1.5,
-      opacity: 0.35,
-    }}
+style={{
+  color: "#0854a0",
+  weight: 3,
+  opacity: 0.75,
+  lineCap: "round",
+  lineJoin: "round",
+}}
   />
 )}
 
