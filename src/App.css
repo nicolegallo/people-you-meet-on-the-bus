@@ -228,8 +228,9 @@ button {
 
 .open-story-button {
   position: absolute;
-  top: 1rem;
   right: 1rem;
+  bottom: 1rem;
+
   z-index: 1000;
 
   width: auto;

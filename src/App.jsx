@@ -238,7 +238,7 @@ style={{
 
       <li>
         <strong>Add your story.</strong> Tap the “Add Story” button in the
-        upper-right corner ('X' this window first!).
+        upper-right corner.
       </li>
 
       <li>
