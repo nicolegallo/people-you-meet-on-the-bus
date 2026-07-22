@@ -166,7 +166,7 @@ button {
   text-align: center;
 }
 
-@media (max-width: 600px) {
+@media (max-width: auto) {
   .story-form {
     top: auto;
     right: 0.75rem;
@@ -270,7 +270,7 @@ button {
   background: #06427e;
 }
 
-@media (max-width: 600px) {
+@media (max-width: auto) {
   .help-panel {
     top: 0.75rem;
     left: 0.75rem;
