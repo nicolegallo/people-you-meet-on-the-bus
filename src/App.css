@@ -1,16 +1,80 @@
+/* =========================================================
+   People You Meet on the Bus
+   App Styles
+   ========================================================= */
+
+/* ---------- Brand Variables ---------- */
+
+:root {
+  --brand-blue: #0854a0;
+  --brand-blue-dark: #063f78;
+  --brand-blue-light: #eaf2fb;
+
+  --color-background: #f7f9fb;
+  --color-surface: rgba(255, 255, 255, 0.9);
+  --color-text: #1f2933;
+  --color-text-muted: #5f6b76;
+  --color-border: rgba(8, 84, 160, 0.2);
+  --color-input-border: #cbd5df;
+
+  --font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
+
+  --radius-small: 8px;
+  --radius-medium: 12px;
+  --radius-large: 16px;
+  --radius-pill: 999px;
+
+  --shadow-small: 0 3px 10px rgba(0, 0, 0, 0.14);
+  --shadow-medium: 0 6px 24px rgba(0, 0, 0, 0.18);
+  --shadow-large: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+
+/* ---------- Global ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
 html,
 body,
 #root {
-  margin: 0;
   width: 100%;
   height: 100%;
-  font-family: system-ui, sans-serif;
+  margin: 0;
+}
+
+body,
+button,
+input,
+textarea,
+select {
+  font-family: var(--font-family);
+  color: var(--color-text);
+}
+
+button,
+input,
+textarea,
+select {
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
 }
 
 .app {
+  position: relative;
   width: 100%;
   height: 100%;
-  position: relative;
 }
 
 .map {
@@ -18,54 +82,135 @@ body,
   height: 100vh;
 }
 
-.story-form {
+
+/* ---------- Shared Floating Panels ---------- */
+
+.story-form,
+.help-panel {
   position: absolute;
-  left: 1rem;
+  z-index: 1100;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-large);
+  background: var(--color-surface);
+  color: var(--color-text);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  box-shadow: var(--shadow-medium);
+  overflow-wrap: break-word;
+}
+
+
+/* ---------- Shared Panel Headings ---------- */
+
+.story-form h1,
+.help-panel h2 {
+  margin: 0;
+  color: var(--brand-blue);
+  font-family: var(--font-family);
+  font-size: 1.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+
+/* ---------- Shared Primary Buttons ---------- */
+
+.open-story-button,
+.submit-story-button,
+.help-button {
+  border: none;
+  background: var(--brand-blue);
+  color: white;
+  font-weight: 700;
+  box-shadow: var(--shadow-small);
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.open-story-button:hover,
+.submit-story-button:hover,
+.help-button:hover {
+  background: var(--brand-blue-dark);
+}
+
+.open-story-button:active,
+.submit-story-button:active,
+.help-button:active {
+  transform: translateY(1px);
+}
+
+
+/* ---------- Story Form ---------- */
+
+.story-form {
+  top: 1rem;
   right: 1rem;
-  bottom: 1rem;
-  z-index: 1000;
-  background: white;
+
+  width: min(390px, calc(100% - 2rem));
+  max-height: calc(100vh - 2rem);
+  margin: 0;
   padding: 1rem;
-  border-radius: 18px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-  max-width: 430px;
-  margin: 0 auto;
+
+  overflow-y: auto;
 }
 
 .story-form h1 {
-  font-size: 1.2rem;
-  margin: 0 0 0.25rem;
+  margin-right: 2.5rem;
+  margin-bottom: 0.25rem;
 }
 
 .story-form p {
   margin: 0 0 0.75rem;
-  color: #555;
+  color: var(--color-text-muted);
 }
 
-textarea,
-input,
-button {
+.story-form label {
+  display: block;
+  margin-top: 0.75rem;
+  font-weight: 600;
+}
+
+.story-form input,
+.story-form textarea,
+.story-form select {
   width: 100%;
-  box-sizing: border-box;
-  margin-top: 0.65rem;
+  margin-top: 0.4rem;
   padding: 0.8rem;
-  font-size: 1rem;
-  border-radius: 12px;
-  border: 1px solid #ccc;
+
+  border: 1px solid var(--color-input-border);
+  border-radius: var(--radius-medium);
+  background: white;
+  color: var(--color-text);
 }
 
-textarea {
+.story-form input:focus,
+.story-form textarea:focus,
+.story-form select:focus {
+  border-color: var(--brand-blue);
+  outline: 3px solid rgba(8, 84, 160, 0.15);
+}
+
+.story-form textarea {
   min-height: 100px;
   resize: vertical;
 }
 
-button {
-  border: none;
-  background: black;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
+.submit-story-button {
+  width: 100%;
+  margin-top: 0.75rem;
+  padding: 0.8rem;
+
+  border-radius: var(--radius-medium);
 }
+
+
+/* ---------- Checkbox ---------- */
 
 .checkbox-row {
   display: flex;
@@ -79,133 +224,82 @@ button {
   margin: 0;
 }
 
-.message {
-  margin-top: 0.75rem;
-  font-weight: 600;
-}
-
-.story-popup {
-  max-width: 260px;
-}
-
-.popup-route {
-  font-weight: 700;
-  margin: 0 0 0.5rem;
-}
-
-.popup-story {
-  font-size: 0.95rem;
-  line-height: 1.4;
-  margin: 0 0 0.75rem;
-}
-
-.popup-author {
-  font-size: 0.8rem;
-  color: #666;
+.checkbox-row label {
   margin: 0;
+  font-weight: 400;
 }
+
+
+/* ---------- Open Story Button ---------- */
 
 .open-story-button {
   position: absolute;
   top: 1rem;
   right: 1rem;
   z-index: 1000;
+
   width: auto;
   margin: 0;
   padding: 0.8rem 1.1rem;
-  border: none;
-  border-radius: 999px;
-  background: #111;
-  color: white;
+
+  border-radius: var(--radius-pill);
   font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
 }
 
-.story-form {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  left: auto;
-  bottom: auto;
-  z-index: 1100;
-  width: min(390px, calc(100% - 2rem));
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-  margin: 0;
-}
 
-.close-form-button {
+/* ---------- Close Buttons ---------- */
+
+.close-form-button,
+.close-help-button {
   position: absolute;
-  top: 0.65rem;
-  right: 0.65rem;
-  width: 36px;
-  height: 36px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   margin: 0;
   padding: 0;
+
+  border: none;
   border-radius: 50%;
   background: transparent;
-  color: #333;
-  font-size: 1.7rem;
+  color: var(--color-text);
+
   line-height: 1;
 }
 
-.map-message {
-  position: absolute;
-  top: 1rem;
-  left: 50%;
-  z-index: 1200;
-  transform: translateX(-50%);
-  max-width: calc(100% - 2rem);
-  padding: 0.75rem 1rem;
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-  font-weight: 600;
-  text-align: center;
+.close-form-button:hover,
+.close-help-button:hover {
+  background: var(--brand-blue-light);
+  color: var(--brand-blue);
 }
 
-@media (max-width: 600px) {
-  .story-form {
-    top: auto;
-    right: 0.75rem;
-    left: 0.75rem;
-    bottom: 0.75rem;
-    width: auto;
-    max-height: 75vh;
-  }
+.close-form-button {
+  top: 0.65rem;
+  right: 0.65rem;
 
-  .open-story-button {
-    top: 0.75rem;
-    right: 0.75rem;
-  }
+  width: 36px;
+  height: 36px;
+
+  font-size: 1.7rem;
 }
+
+
+/* ---------- Help Panel ---------- */
 
 .help-panel {
-  position: absolute;
   top: 1rem;
   left: 1rem;
   right: 1rem;
-  max-width: 360px;
 
   z-index: 1200;
-  padding: 1.25rem;
-  border: 1px solid rgba(8, 84, 160, 0.2);
-  border-radius: 16px;
-  background: rgba(255,255,255,0.88);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  box-shadow: 0 6px 24px rgba(0,0,0,.18);
 
-  box-sizing: border-box;
-  overflow-wrap: break-word;
+  max-width: 360px;
+  padding: 1.25rem;
 }
 
 .help-panel h2 {
   margin: 0 2.5rem 0.9rem 0;
-  color: #0854a0;
-  font-size: 1.2rem;
 }
 
 .help-steps {
@@ -225,67 +319,137 @@ button {
 .help-note {
   margin: 1rem 0 0;
   padding-top: 0.8rem;
+
   border-top: 1px solid rgba(8, 84, 160, 0.15);
+
+  color: var(--color-text-muted);
   font-size: 0.9rem;
   font-weight: 600;
 }
 
 .close-help-button {
-  position: absolute;
   top: 0.55rem;
   right: 0.55rem;
+
   width: 34px;
   height: 34px;
-  margin: 0;
-  padding: 0;
-  border: none;
-  border-radius: 50%;
-  background: transparent;
-  color: #333;
+
   font-size: 1.6rem;
-  line-height: 1;
-  cursor: pointer;
 }
 
-.close-help-button:hover {
-  background: rgba(8, 84, 160, 0.1);
-}
+
+/* ---------- Minimized Help Button ---------- */
 
 .help-button {
   position: absolute;
   top: 1rem;
   left: 1rem;
   z-index: 1200;
+
   width: 44px;
   height: 44px;
   margin: 0;
   padding: 0;
+
   border: 2px solid white;
   border-radius: 50%;
-  background: #0854a0;
-  color: white;
+
   font-size: 1.3rem;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24);
 }
 
-.help-button:hover {
-  background: #06427e;
+
+/* ---------- Status Message ---------- */
+
+.message {
+  margin-top: 0.75rem;
+  font-weight: 600;
 }
+
+.map-message {
+  position: absolute;
+  top: 1rem;
+  left: 50%;
+  z-index: 1200;
+
+  max-width: calc(100% - 2rem);
+  padding: 0.75rem 1rem;
+
+  transform: translateX(-50%);
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-medium);
+
+  font-weight: 600;
+  text-align: center;
+}
+
+
+/* ---------- Leaflet Story Popups ---------- */
+
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-medium);
+  color: var(--color-text);
+  font-family: var(--font-family);
+}
+
+.leaflet-popup-tip {
+  background: white;
+}
+
+.story-popup {
+  max-width: 260px;
+}
+
+.popup-route {
+  margin: 0 0 0.5rem;
+  color: var(--brand-blue);
+  font-weight: 700;
+}
+
+.popup-story {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.popup-author {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+
+/* ---------- Mobile ---------- */
 
 @media (max-width: 600px) {
-.help-panel {
-    top: 0.75rem;
-    left: 0.75rem;
+  .story-form {
+    top: auto;
     right: 0.75rem;
+    bottom: 0.75rem;
+    left: 0.75rem;
+
+    width: auto;
+    max-height: 75vh;
+  }
+
+  .open-story-button {
+    top: 0.75rem;
+    right: 0.75rem;
+  }
+
+  .help-panel {
+    top: 0.75rem;
+    right: 0.75rem;
+    left: 0.75rem;
 
     max-width: none;
     max-height: 70vh;
-    overflow-y: auto;
-
     padding: 1rem;
-}
+
+    overflow-y: auto;
+  }
 
   .help-button {
     top: 0.75rem;

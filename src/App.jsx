@@ -315,7 +315,9 @@ style={{
           />
         )}
 
-        <button type="submit">Submit Story</button>
+        <button type="submit" className="submit-story-button">
+  Submit Story
+</button>
 
         {message && <div className="map-message">{message}</div>}
       </form>
