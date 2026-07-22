@@ -451,4 +451,50 @@ button {
   }
 }
 
+.network-toggle {
+  bottom: 4.5rem;
+  left: 0.75rem;
+
+  max-width: calc(100% - 1.5rem);
+}
+
+/* ---------- Network Toggle ---------- */
+
+.network-toggle {
+  position: absolute;
+  bottom: 5rem;
+  left: 1rem;
+  z-index: 1200;
+
+  padding: 0.75rem 0.9rem;
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-medium);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-medium);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.network-toggle-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+
+  margin: 0;
+
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.network-toggle-row input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+
+  accent-color: var(--brand-blue);
+}
+
 /* test comment to help with deployment */
