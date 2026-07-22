@@ -6,6 +6,7 @@ import {
   Popup,
   GeoJSON,
   useMapEvents,
+  ZoomControl,
 } from 'react-leaflet'
 import L from 'leaflet'
 import busStopMarker from './assets/bus-stop-marker.png'
@@ -57,6 +58,7 @@ const [stopsGeoJson, setStopsGeoJson] = useState(null)
   const [isAnonymous, setIsAnonymous] = useState(true)
   const [message, setMessage] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [isHelpOpen, setIsHelpOpen] = useState(true)
 
  useEffect(() => {
   fetchApprovedStories()
@@ -133,17 +135,20 @@ async function loadStops() {
 
   return (
     <div className="app">
-      <MapContainer
-        center={[39.7684, -86.1581]}
-        zoom={12}
-        className="map"
-      >
+<MapContainer
+  center={[39.7684, -86.1581]}
+  zoom={12}
+  className="map"
+  zoomControl={false}
+>
         
         <TileLayer
   attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
   url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
   subdomains="abcd"
 />
+
+<ZoomControl position="bottomleft" />
 
 {routesGeoJson && (
   <GeoJSON
@@ -202,6 +207,61 @@ style={{
           </Marker>
         ))}
       </MapContainer>
+
+      {isHelpOpen ? (
+  <aside
+    className="help-panel"
+    role="dialog"
+    aria-labelledby="help-title"
+  >
+    <button
+      type="button"
+      className="close-help-button"
+      onClick={() => setIsHelpOpen(false)}
+      aria-label="Close help instructions"
+    >
+      ×
+    </button>
+
+    <h2 id="help-title">How to use the story map</h2>
+
+    <ol className="help-steps">
+      <li>
+        <strong>Explore the map.</strong> Tap a bus stop marker to read a
+        rider’s story.
+      </li>
+
+      <li>
+        <strong>Choose a location.</strong> Tap the map where your story
+        happened.
+      </li>
+
+      <li>
+        <strong>Add your story.</strong> Tap the “Add Story” button in the
+        upper-right corner.
+      </li>
+
+      <li>
+        <strong>Submit it.</strong> Your story will appear after it has been
+        reviewed and approved.
+      </li>
+    </ol>
+
+    <p className="help-note">
+      Stories may be submitted anonymously.
+    </p>
+  </aside>
+) : (
+  <button
+    type="button"
+    className="help-button"
+    onClick={() => setIsHelpOpen(true)}
+    aria-label="Open help instructions"
+    title="Help"
+  >
+    ?
+  </button>
+)}
 
       {selectedPosition && !isFormOpen && (
   <button
