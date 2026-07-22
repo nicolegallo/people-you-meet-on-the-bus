@@ -52,8 +52,13 @@ function LocationPicker({ setSelectedPosition, setIsFormOpen }) {
 
 
 export default function App() {
-  const [routesGeoJson, setRoutesGeoJson] = useState(null)
-  const [stopsGeoJson, setStopsGeoJson] = useState(null)
+  const [routes2025, setRoutes2025] = useState(null)
+  const [stops2025, setStops2025] = useState(null)
+
+  const [routes2026, setRoutes2026] = useState(null)
+  const [stops2026, setStops2026] = useState(null)
+
+  const [selectedNetwork, setSelectedNetwork] = useState('none')
 
   const [selectedPosition, setSelectedPosition] = useState(null)
   const [approvedStories, setApprovedStories] = useState([])
@@ -67,45 +72,53 @@ export default function App() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(true)
 
-  // The map starts without the 2025 routes and stops visible.
-  const [showNetwork, setShowNetwork] = useState(false)
-
 
   useEffect(() => {
     fetchApprovedStories()
-    loadRoutes()
-    loadStops()
+    load2025Network()
+    load2026Network()
   }, [])
 
 
-  async function loadRoutes() {
+  async function loadGeoJson(path, label) {
+    const response = await fetch(path)
+
+    if (!response.ok) {
+      throw new Error(`${label} failed to load: ${response.status}`)
+    }
+
+    return response.json()
+  }
+
+
+  async function load2025Network() {
     try {
-      const response = await fetch('/data/indygo-routes.geojson')
+      const [routes, stops] = await Promise.all([
+        loadGeoJson('/data/indygo-routes.geojson', '2025 routes'),
+        loadGeoJson('/data/indygo-stops.geojson', '2025 stops'),
+      ])
 
-      if (!response.ok) {
-        throw new Error(`Route data failed to load: ${response.status}`)
-      }
-
-      const data = await response.json()
-      setRoutesGeoJson(data)
+      setRoutes2025(routes)
+      setStops2025(stops)
     } catch (error) {
       console.error(error)
+      setMessage('The 2025 network could not be loaded.')
     }
   }
 
 
-  async function loadStops() {
+  async function load2026Network() {
     try {
-      const response = await fetch('/data/indygo-stops.geojson')
+      const [routes, stops] = await Promise.all([
+        loadGeoJson('/data/Routes_2602.geojson', '2026 routes'),
+        loadGeoJson('/data/Stop_2602.geojson', '2026 stops'),
+      ])
 
-      if (!response.ok) {
-        throw new Error(`Stop data failed to load: ${response.status}`)
-      }
-
-      const data = await response.json()
-      setStopsGeoJson(data)
+      setRoutes2026(routes)
+      setStops2026(stops)
     } catch (error) {
       console.error(error)
+      setMessage('The 2026 network could not be loaded.')
     }
   }
 
@@ -168,6 +181,82 @@ export default function App() {
   }
 
 
+  function routeStyle() {
+    return {
+      color: '#0854a0',
+      weight: 3,
+      opacity: 0.9,
+      lineCap: 'round',
+      lineJoin: 'round',
+    }
+  }
+
+
+  function stopPointToLayer(feature, latlng) {
+    return L.circleMarker(latlng, {
+      radius: 2,
+      color: '#222',
+      fillColor: '#222',
+      fillOpacity: 0.35,
+      weight: 0,
+    })
+  }
+
+
+  function bindRoutePopup(feature, layer) {
+    const properties = feature.properties || {}
+
+    const routeNumber =
+      properties.route_short_name ||
+      properties.Route ||
+      properties.route
+
+    const routeName =
+      properties.route_long_name ||
+      properties.RouteName ||
+      properties.route_name
+
+    const popupParts = []
+
+    if (routeNumber) {
+      popupParts.push(`<strong>Route ${routeNumber}</strong>`)
+    } else {
+      popupParts.push('<strong>IndyGo route</strong>')
+    }
+
+    if (routeName) {
+      popupParts.push(routeName)
+    }
+
+    layer.bindPopup(popupParts.join('<br>'))
+  }
+
+
+  function bindStopPopup(feature, layer) {
+    const properties = feature.properties || {}
+
+    const stopName =
+      properties.stop_name ||
+      properties.StopName ||
+      properties.stop
+
+    const stopId =
+      properties.stop_id ||
+      properties.StopID ||
+      properties.stop_code
+
+    const popupParts = [
+      `<strong>${stopName || 'IndyGo bus stop'}</strong>`,
+    ]
+
+    if (stopId) {
+      popupParts.push(`Stop ID: ${stopId}`)
+    }
+
+    layer.bindPopup(popupParts.join('<br>'))
+  }
+
+
   return (
     <div className="app">
       <MapContainer
@@ -184,35 +273,44 @@ export default function App() {
 
         <ZoomControl position="bottomleft" />
 
-        {showNetwork && routesGeoJson && (
+
+        {selectedNetwork === '2025' && routes2025 && (
           <GeoJSON
             key="routes-2025"
-            data={routesGeoJson}
-            style={{
-              color: '#0854a0',
-              weight: 3,
-              opacity: 0.9,
-              lineCap: 'round',
-              lineJoin: 'round',
-            }}
+            data={routes2025}
+            style={routeStyle}
+            onEachFeature={bindRoutePopup}
           />
         )}
 
-        {showNetwork && stopsGeoJson && (
+        {selectedNetwork === '2025' && stops2025 && (
           <GeoJSON
             key="stops-2025"
-            data={stopsGeoJson}
-            pointToLayer={(feature, latlng) =>
-              L.circleMarker(latlng, {
-                radius: 2,
-                color: '#222',
-                fillColor: '#222',
-                fillOpacity: 0.35,
-                weight: 0,
-              })
-            }
+            data={stops2025}
+            pointToLayer={stopPointToLayer}
+            onEachFeature={bindStopPopup}
           />
         )}
+
+
+        {selectedNetwork === '2026' && routes2026 && (
+          <GeoJSON
+            key="routes-2026"
+            data={routes2026}
+            style={routeStyle}
+            onEachFeature={bindRoutePopup}
+          />
+        )}
+
+        {selectedNetwork === '2026' && stops2026 && (
+          <GeoJSON
+            key="stops-2026"
+            data={stops2026}
+            pointToLayer={stopPointToLayer}
+            onEachFeature={bindStopPopup}
+          />
+        )}
+
 
         <LocationPicker
           setSelectedPosition={setSelectedPosition}
@@ -253,17 +351,29 @@ export default function App() {
       </MapContainer>
 
 
-      <div className="network-toggle">
-        <label className="network-toggle-row">
-          <input
-            type="checkbox"
-            checked={showNetwork}
-            onChange={(event) => setShowNetwork(event.target.checked)}
-          />
+<div
+  className={[
+    'network-toggle',
+    isFormOpen ? 'network-toggle-form-open' : '',
+    isHelpOpen ? 'network-toggle-help-open' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')}
+>
+  <label htmlFor="network-select">
+    Transit network
+  </label>
 
-          <span>Show 2025 Network</span>
-        </label>
-      </div>
+  <select
+    id="network-select"
+    value={selectedNetwork}
+    onChange={(event) => setSelectedNetwork(event.target.value)}
+  >
+    <option value="none">No network</option>
+    <option value="2025">2025 network</option>
+    <option value="2026">2026 network</option>
+  </select>
+</div>
 
 
       {isHelpOpen ? (
@@ -287,12 +397,13 @@ export default function App() {
 
           <ol className="help-steps">
             <li>
-              <strong>Explore the map.</strong> Tap a bus stop marker to read
-              a rider’s story.
+              <strong>Explore the map.</strong> Tap a story marker to read a
+              rider’s story.
             </li>
 
             <li>
-              <strong>View the network.</strong> Click "Show 2025 Network" to find the bus route & stop.
+              <strong>Choose a network.</strong> Select the 2025 or 2026
+              network to display its routes and stops.
             </li>
 
             <li>
