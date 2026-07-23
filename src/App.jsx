@@ -204,57 +204,67 @@ export default function App() {
 
 
   function bindRoutePopup(feature, layer) {
-    const properties = feature.properties || {}
+  const properties = feature.properties || {}
 
-    const routeNumber =
-      properties.route_short_name ||
-      properties.Route ||
-      properties.route
+  const routeNumber =
+    properties.route_short_name ||
+    properties.Route ||
+    properties.route
 
-    const routeName =
-      properties.route_long_name ||
-      properties.RouteName ||
-      properties.route_name
+  const routeName =
+    properties.route_long_name ||
+    properties.RouteName ||
+    properties.route_name
 
-    const popupParts = []
+  const popupParts = []
 
-    if (routeNumber) {
-      popupParts.push(`<strong>Route ${routeNumber}</strong>`)
-    } else {
-      popupParts.push('<strong>IndyGo route</strong>')
-    }
-
-    if (routeName) {
-      popupParts.push(routeName)
-    }
-
-    layer.bindPopup(popupParts.join('<br>'))
+  if (routeNumber) {
+    popupParts.push(`<strong>Route ${routeNumber}</strong>`)
+  } else {
+    popupParts.push('<strong>IndyGo route</strong>')
   }
 
-
-  function bindStopPopup(feature, layer) {
-    const properties = feature.properties || {}
-
-    const stopName =
-      properties.stop_name ||
-      properties.StopName ||
-      properties.stop
-
-    const stopId =
-      properties.stop_id ||
-      properties.StopID ||
-      properties.stop_code
-
-    const popupParts = [
-      `<strong>${stopName || 'IndyGo bus stop'}</strong>`,
-    ]
-
-    if (stopId) {
-      popupParts.push(`Stop ID: ${stopId}`)
-    }
-
-    layer.bindPopup(popupParts.join('<br>'))
+  if (routeName) {
+    popupParts.push(routeName)
   }
+
+  layer.bindPopup(popupParts.join('<br>'))
+
+  layer.on('click', (event) => {
+    setSelectedPosition(event.latlng)
+    setIsFormOpen(false)
+  })
+}
+
+
+function bindStopPopup(feature, layer) {
+  const properties = feature.properties || {}
+
+  const stopName =
+    properties.stop_name ||
+    properties.StopName ||
+    properties.stop
+
+  const stopId =
+    properties.stop_id ||
+    properties.StopID ||
+    properties.stop_code
+
+  const popupParts = [
+    `<strong>${stopName || 'IndyGo bus stop'}</strong>`,
+  ]
+
+  if (stopId) {
+    popupParts.push(`Stop ID: ${stopId}`)
+  }
+
+  layer.bindPopup(popupParts.join('<br>'))
+
+  layer.on('click', () => {
+    setSelectedPosition(layer.getLatLng())
+    setIsFormOpen(false)
+  })
+}
 
 
   return (
