@@ -1,133 +1,104 @@
-# Stories from People You Meet on the Bus
+# People You Meet On The Bus - A Story Map App
 
-*A community storytelling map inspired by Queering the Map, built for the Indianapolis transit network.*
+A community storytelling map inspired by **People We Meet On The Bus**, built specifically for **IndyGo** riders in Indianapolis.
 
-![Status](https://img.shields.io/badge/Status-In%20Development-blue)
-![React](https://img.shields.io/badge/React-19-61DAFB)
-![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E)
-![Leaflet](https://img.shields.io/badge/Leaflet-Mapping-199900)
+People can anonymously share memorable experiences that happened while riding the bus, waiting at stops, or interacting with fellow riders. Stories are pinned to the map and reviewed before becoming public.
 
 ---
 
-## Overview
+## Features
 
-**Stories from People You Meet on the Bus** is a community-driven map where bus riders can anonymously share stories, memories, conversations, observations, and moments that happened while riding public transit throughout Indianapolis.
+### Interactive Story Map
 
-Inspired by **Queering the Map**, this project transforms the IndyGo network into a living archive of the people and experiences that make transit more than just transportation.
+- Browse approved stories across Indianapolis
+- Click story markers to read rider experiences
+- Responsive design for desktop and mobile
 
-Rather than focusing on schedules and directions, this project focuses on **human connection**.
+### Story Submission
 
----
+- Click anywhere on the map to place a story
+- Snap stories directly to bus stops
+- Anonymous or named submissions
+- Moderator approval before publication
 
-## Project Goals
+### Historical Transit Networks
 
-- Celebrate everyday experiences on public transit
-- Build an anonymous archive of Indianapolis transit stories
-- Display stories geographically across the IndyGo network
-- Encourage community through shared experiences
-- Prioritize accessibility and mobile-first design
+Compare IndyGo's network across multiple years:
 
----
+| Year | Routes | Stops |
+|------|--------|-------|
+| 2022 | ✅ | — |
+| 2023 | ✅ | — |
+| 2024 | ✅ | — |
+| 2025 | ✅ | ✅ |
+| 2026 | ✅ | ✅ |
 
-## Current Features
+- Historical networks displayed in gray
+- Current (2026) network highlighted in IndyGo blue
 
-### Sprint 1
-- Interactive Leaflet map
-- Mobile-friendly story submission
-- Anonymous posting
-- Supabase backend
-- Story moderation (pending / approved)
+### 📱 Mobile Friendly
 
-### Sprint 2
-- Approved stories displayed on the map
-- Clickable story popups
-
-### Sprint 3
-- IndyGo route network overlay
-- IndyGo bus stop overlay
-- Interactive story markers
-
----
-
-## Planned Features
-
-### Community
-- Story search
-- Route filtering
-- Favorite stories
-- Story of the Week
-- Report inappropriate content
-
-### Transit
-- Snap stories to nearest bus stop
-- Automatic route detection
-
-### Administration
-- Admin dashboard
-- Story approval queue
-- Moderation tools
-- Analytics dashboard
-
-### Accessibility
-- High contrast mode
-- Screen reader improvements
-- Adjustable text sizing
+- Responsive layout
+- Mobile-optimized story form
+- Floating help panel
+- Adaptive controls
 
 ---
 
-## Tech Stack
+## Built With
 
 - React
 - Vite
+- React Leaflet
 - Leaflet
 - Supabase
-- OpenStreetMap
-- IndyGIS Route Data
+- Vercel
 
 ---
 
-## Screenshots
+## Project Status
 
-*(Coming soon)*
+Current Version:
 
----
+**v1.4**
 
-## Installation
+Implemented:
 
-Clone the repository
+- Story submission
+- Story moderation
+- Interactive map
+- Historical route networks
+- Route & stop popups
+- Responsive UI
+- Mobile optimization
 
-```bash
-git clone https://github.com/nicolegallo/people-you-meet-on-the-bus.git
-```
+Planned:
 
-Install dependencies
-
-```bash
-npm install
-```
-
-Run locally
-
-```bash
-npm run dev
-```
+- Route search
+- Story filtering
+- Timeline comparison
+- Favorite routes
+- Heat maps
+- Story statistics
 
 ---
 
 ## Inspiration
 
-This project is heavily inspired by **Queering the Map**, adapting the concept into a space dedicated to public transit stories and the people who ride IndyGo every day.
+This project was inspired by **Queering the Map** (reimagined for public transit) and **People We Meet On The Bus** (a collection of art & stories- made in, by, and for Indianapolis).
+
+Every bus ride has a story. Our **People YOU Meet On The Bus Story Map App** shows that.
 
 ---
 
-## License
+## Running Locally
 
-MIT License
+```bash
+git clone https://github.com/yourusername/people-you-meet-on-the-bus.git
 
----
+cd people-you-meet-on-the-bus
 
-## Created By
+npm install
 
-Nicole Gallo
-
-Data Analyst • Public Transit Advocate • Indie App Developer
+npm run dev
+```

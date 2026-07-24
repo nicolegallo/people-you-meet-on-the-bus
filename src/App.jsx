@@ -52,6 +52,10 @@ function LocationPicker({ setSelectedPosition, setIsFormOpen }) {
 
 
 export default function App() {
+  const [routes2022, setRoutes2022] = useState(null)
+  const [routes2023, setRoutes2023] = useState(null)
+  const [routes2024, setRoutes2024] = useState(null)
+
   const [routes2025, setRoutes2025] = useState(null)
   const [stops2025, setStops2025] = useState(null)
 
@@ -75,6 +79,9 @@ export default function App() {
 
   useEffect(() => {
     fetchApprovedStories()
+    load2022Network()
+    load2023Network()
+    load2024Network()
     load2025Network()
     load2026Network()
   }, [])
@@ -89,6 +96,49 @@ export default function App() {
 
     return response.json()
   }
+  
+
+  async function load2022Network() {
+  try {
+    const routes = await loadGeoJson(
+      '/data/Routes_2206.geojson',
+      '2022 routes'
+    )
+
+    setRoutes2022(routes)
+  } catch (error) {
+    console.error(error)
+    setMessage('The 2022 network could not be loaded.')
+  }
+}
+
+async function load2023Network() {
+  try {
+    const routes = await loadGeoJson(
+      '/data/Routes_2306.geojson',
+      '2023 routes'
+    )
+
+    setRoutes2023(routes)
+  } catch (error) {
+    console.error(error)
+    setMessage('The 2023 network could not be loaded.')
+  }
+}
+
+async function load2024Network() {
+  try {
+    const routes = await loadGeoJson(
+      '/data/Routes_2406.geojson',
+      '2024 routes'
+    )
+
+    setRoutes2024(routes)
+  } catch (error) {
+    console.error(error)
+    setMessage('The 2024 network could not be loaded.')
+  }
+}
 
 
   async function load2025Network() {
@@ -181,15 +231,25 @@ export default function App() {
   }
 
 
-  function routeStyle() {
-    return {
-      color: '#0854a0',
-      weight: 3,
-      opacity: 0.9,
-      lineCap: 'round',
-      lineJoin: 'round',
-    }
+  function currentRouteStyle() {
+  return {
+    color: '#0854a0',
+    weight: 3,
+    opacity: 0.9,
+    lineCap: 'round',
+    lineJoin: 'round',
   }
+}
+
+function pastRouteStyle() {
+  return {
+    color: '#7a7a7a',
+    weight: 3,
+    opacity: 0.75,
+    lineCap: 'round',
+    lineJoin: 'round',
+  }
+}
 
 
   function stopPointToLayer(feature, latlng) {
@@ -231,9 +291,9 @@ export default function App() {
   layer.bindPopup(popupParts.join('<br>'))
 
   layer.on('click', (event) => {
-    setSelectedPosition(event.latlng)
-    setIsFormOpen(false)
-  })
+  setSelectedPosition(event.latlng)
+  setIsFormOpen(false)
+})
 }
 
 
@@ -261,9 +321,9 @@ function bindStopPopup(feature, layer) {
   layer.bindPopup(popupParts.join('<br>'))
 
   layer.on('click', () => {
-    setSelectedPosition(layer.getLatLng())
-    setIsFormOpen(false)
-  })
+  setSelectedPosition(layer.getLatLng())
+  setIsFormOpen(false)
+})
 }
 
 
@@ -283,12 +343,39 @@ function bindStopPopup(feature, layer) {
 
         <ZoomControl position="bottomleft" />
 
+        {selectedNetwork === '2022' && routes2022 && (
+          <GeoJSON
+            key="routes-2022"
+            data={routes2022}
+            style={pastRouteStyle}
+            onEachFeature={bindRoutePopup}
+          />
+        )}
+
+        {selectedNetwork === '2023' && routes2023 && (
+          <GeoJSON
+            key="routes-2023"
+            data={routes2023}
+            style={pastRouteStyle}
+            onEachFeature={bindRoutePopup}
+          />
+        )}
+
+        {selectedNetwork === '2024' && routes2024 && (
+          <GeoJSON
+            key="routes-2024"
+            data={routes2024}
+            style={pastRouteStyle}
+            onEachFeature={bindRoutePopup}
+          />
+        )}
+
 
         {selectedNetwork === '2025' && routes2025 && (
           <GeoJSON
             key="routes-2025"
             data={routes2025}
-            style={routeStyle}
+            style={pastRouteStyle}
             onEachFeature={bindRoutePopup}
           />
         )}
@@ -307,7 +394,7 @@ function bindStopPopup(feature, layer) {
           <GeoJSON
             key="routes-2026"
             data={routes2026}
-            style={routeStyle}
+            style={currentRouteStyle}
             onEachFeature={bindRoutePopup}
           />
         )}
@@ -380,8 +467,13 @@ function bindStopPopup(feature, layer) {
     onChange={(event) => setSelectedNetwork(event.target.value)}
   >
     <option value="none">No network</option>
-    <option value="2025">2025 network</option>
     <option value="2026">2026 network</option>
+    <option value="2025">2025 network</option>
+    <option value="2024">2024 network</option>
+    <option value="2023">2023 network</option>
+    <option value="2022">2022 network</option>
+
+
   </select>
 </div>
 
@@ -412,8 +504,7 @@ function bindStopPopup(feature, layer) {
             </li>
 
             <li>
-              <strong>Choose a network.</strong> Select the 2025 or 2026
-              network to display its routes and stops.
+              <strong>Choose a network.</strong> Select a network year to view its routes. Current network: 2026
             </li>
 
             <li>
@@ -449,15 +540,18 @@ function bindStopPopup(feature, layer) {
       )}
 
 
-      {selectedPosition && !isFormOpen && (
-        <button
-          type="button"
-          className="open-story-button"
-          onClick={() => setIsFormOpen(true)}
-        >
-          Add Story
-        </button>
-      )}
+{selectedPosition && !isFormOpen && (
+  <button
+    type="button"
+    className="open-story-button"
+    onClick={() => {
+      setIsHelpOpen(false)
+      setIsFormOpen(true)
+    }}
+  >
+    Add Story
+  </button>
+)}
 
 
       {isFormOpen && (
