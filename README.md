@@ -72,15 +72,6 @@ Implemented:
 - Responsive UI
 - Mobile optimization
 
-Planned:
-
-- Route search
-- Story filtering
-- Timeline comparison
-- Favorite routes
-- Heat maps
-- Story statistics
-
 ---
 
 ## Inspiration
