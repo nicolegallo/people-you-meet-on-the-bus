@@ -463,8 +463,8 @@ button {
 
 .network-button {
   position: absolute;
+ top: 4.75rem;
   left: 1rem;
-  bottom: 5rem;
   z-index: 1250;
 
   display: flex;
@@ -568,8 +568,8 @@ button {
 
 @media (max-width: 600px) {
   .network-button {
-    left: 0.75rem;
-    bottom: 5rem;
+ top: 4.25rem;
+  left: 0.75rem;
 
     width: 42px;
     height: 42px;

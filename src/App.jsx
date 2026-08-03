@@ -44,6 +44,7 @@ function LocationPicker({
   setSelectedPosition,
   setIsFormOpen,
   setIsNetworkOpen,
+  setIsHelpOpen,
   hasInteractedWithMap,
   setHasInteractedWithMap,
 }) {
@@ -54,6 +55,7 @@ function LocationPicker({
 
       if (!hasInteractedWithMap) {
         setIsNetworkOpen(false)
+        setIsHelpOpen(false)
         setHasInteractedWithMap(true)
       }
     },
@@ -427,6 +429,7 @@ function bindStopPopup(feature, layer) {
   setSelectedPosition={setSelectedPosition}
   setIsFormOpen={setIsFormOpen}
   setIsNetworkOpen={setIsNetworkOpen}
+  setIsHelpOpen={setIsHelpOpen}
   hasInteractedWithMap={hasInteractedWithMap}
   setHasInteractedWithMap={setHasInteractedWithMap}
 />
