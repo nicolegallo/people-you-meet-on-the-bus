@@ -62,7 +62,7 @@ export default function App() {
   const [routes2026, setRoutes2026] = useState(null)
   const [stops2026, setStops2026] = useState(null)
 
-  const [selectedNetwork, setSelectedNetwork] = useState('none')
+  const [selectedNetwork, setSelectedNetwork] = useState('2026')
 
   const [selectedPosition, setSelectedPosition] = useState(null)
   const [approvedStories, setApprovedStories] = useState([])
