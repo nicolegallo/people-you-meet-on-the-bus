@@ -241,7 +241,8 @@ button {
 /* ---------- Close Buttons ---------- */
 
 .close-form-button,
-.close-help-button {
+.close-help-button,
+.close-network-button {
   position: absolute;
 
   display: flex;
@@ -260,7 +261,8 @@ button {
 }
 
 .close-form-button:hover,
-.close-help-button:hover {
+.close-help-button:hover,
+.clock-network-button:hover {
   background: var(--brand-blue-light);
   color: var(--brand-blue);
 }
@@ -459,6 +461,57 @@ button {
   outline: 3px solid rgba(8, 84, 160, 0.15);
 }
 
+.network-button {
+  position: absolute;
+  left: 1rem;
+  bottom: 5rem;
+  z-index: 1250;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+
+  border: 2px solid white;
+  border-radius: 50%;
+  background: var(--brand-blue);
+
+  box-shadow: var(--shadow-small);
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.network-button:hover {
+  background: var(--brand-blue-dark);
+}
+
+.network-button:active {
+  transform: translateY(1px);
+}
+
+.network-button img {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.close-network-button {
+  top: 0.45rem;
+  right: 0.45rem;
+
+  width: 32px;
+  height: 32px;
+
+  font-size: 1.4rem;
+}
+
 
 /* ---------- Mobile ---------- */
 
@@ -512,4 +565,14 @@ button {
     bottom: auto;
     z-index: 1250;
   }
+
+@media (max-width: 600px) {
+  .network-button {
+    left: 0.75rem;
+    bottom: 5rem;
+
+    width: 42px;
+    height: 42px;
+  }
+}
 }

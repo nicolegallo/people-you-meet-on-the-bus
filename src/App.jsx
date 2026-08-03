@@ -13,6 +13,7 @@ import L from 'leaflet'
 import busStopMarker from './assets/bus-stop-marker.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import mapsIcon from './assets/maps-icon.svg'
 
 import 'leaflet/dist/leaflet.css'
 import './App.css'
@@ -39,11 +40,22 @@ const DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon
 
 
-function LocationPicker({ setSelectedPosition, setIsFormOpen }) {
+function LocationPicker({
+  setSelectedPosition,
+  setIsFormOpen,
+  setIsNetworkOpen,
+  hasInteractedWithMap,
+  setHasInteractedWithMap,
+}) {
   useMapEvents({
     click(event) {
       setSelectedPosition(event.latlng)
       setIsFormOpen(false)
+
+      if (!hasInteractedWithMap) {
+        setIsNetworkOpen(false)
+        setHasInteractedWithMap(true)
+      }
     },
   })
 
@@ -75,6 +87,8 @@ export default function App() {
   const [message, setMessage] = useState('')
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [isHelpOpen, setIsHelpOpen] = useState(true)
+  const [isNetworkOpen, setIsNetworkOpen] = useState(true)
+const [hasInteractedWithMap, setHasInteractedWithMap] = useState(false)
 
 
   useEffect(() => {
@@ -410,9 +424,12 @@ function bindStopPopup(feature, layer) {
 
 
         <LocationPicker
-          setSelectedPosition={setSelectedPosition}
-          setIsFormOpen={setIsFormOpen}
-        />
+  setSelectedPosition={setSelectedPosition}
+  setIsFormOpen={setIsFormOpen}
+  setIsNetworkOpen={setIsNetworkOpen}
+  hasInteractedWithMap={hasInteractedWithMap}
+  setHasInteractedWithMap={setHasInteractedWithMap}
+/>
 
         {selectedPosition && (
           <Marker position={selectedPosition} />
@@ -448,34 +465,61 @@ function bindStopPopup(feature, layer) {
       </MapContainer>
 
 
-<div
-  className={[
-    'network-toggle',
-    isFormOpen ? 'network-toggle-form-open' : '',
-    isHelpOpen ? 'network-toggle-help-open' : '',
-  ]
-    .filter(Boolean)
-    .join(' ')}
->
-  <label htmlFor="network-select">
-    Transit network
-  </label>
-
-  <select
-    id="network-select"
-    value={selectedNetwork}
-    onChange={(event) => setSelectedNetwork(event.target.value)}
+{isNetworkOpen ? (
+  <div
+    className={[
+      'network-toggle',
+      isFormOpen ? 'network-toggle-form-open' : '',
+      isHelpOpen ? 'network-toggle-help-open' : '',
+    ]
+      .filter(Boolean)
+      .join(' ')}
   >
-    <option value="none">No network</option>
-    <option value="2026">2026 network</option>
-    <option value="2025">2025 network</option>
-    <option value="2024">2024 network</option>
-    <option value="2023">2023 network</option>
-    <option value="2022">2022 network</option>
+    <button
+      type="button"
+      className="close-network-button"
+      onClick={() => setIsNetworkOpen(false)}
+      aria-label="Close transit network selector"
+    >
+      ×
+    </button>
+
+    <label htmlFor="network-select">
+      Transit network
+    </label>
+
+    <select
+      id="network-select"
+      value={selectedNetwork}
+      onChange={(event) =>
+        setSelectedNetwork(event.target.value)
+      }
+    >
+      <option value="2026">2026 network</option>
+      <option value="2025">2025 network</option>
+      <option value="2024">2024 network</option>
+      <option value="2023">2023 network</option>
+      <option value="2022">2022 network</option>
+      <option value="none">No transit network</option>
+    </select>
+  </div>
+) : (
+  <button
+    type="button"
+    className="network-button"
+    onClick={() => setIsNetworkOpen(true)}
+    aria-label="Open transit network selector"
+    title="Transit network"
+  >
+    <img
+      src={mapsIcon}
+      alt=""
+      aria-hidden="true"
+    />
+  </button>
+)}
 
 
-  </select>
-</div>
 
 
       {isHelpOpen ? (
