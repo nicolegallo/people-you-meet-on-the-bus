@@ -10,6 +10,7 @@ import {
 } from 'react-leaflet'
 import L from 'leaflet'
 
+//import busStopMarker from './assets/indygo-marker-transparent.png'
 import busStopMarker from './assets/bus-stop-marker.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
@@ -352,10 +353,10 @@ function bindStopPopup(feature, layer) {
         zoomControl={false}
       >
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-          subdomains="abcd"
-        />
+  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+  url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${import.meta.env.VITE_CARTO_API_KEY}`}
+  subdomains="abcd"
+/>
 
         <ZoomControl position="bottomleft" />
 
