@@ -508,19 +508,20 @@ function bindStopPopup(feature, layer) {
     </select>
   </div>
 ) : (
-  <button
-    type="button"
-    className="network-button"
-    onClick={() => setIsNetworkOpen(true)}
-    aria-label="Open transit network selector"
-    title="Transit network"
+<button
+  type="button"
+  className="network-button"
+  onClick={() => setIsNetworkOpen(true)}
+  aria-label="Open transit network selector"
+  title="Transit network"
+>
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
   >
-    <img
-      src={mapsIcon}
-      alt=""
-      aria-hidden="true"
-    />
-  </button>
+    <path d="M4 16c0 .88.39 1.67 1 2.22V20c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1h8v1c0 .55.45 1 1 1h1c.55 0 1-.45 1-1v-1.78c.61-.55 1-1.34 1-2.22V6c0-3.5-3.58-4-8-4S4 2.5 4 6v10zm3.5 1.5A1.5 1.5 0 1 1 7.5 14a1.5 1.5 0 0 1 0 3.5zm9 0A1.5 1.5 0 1 1 16.5 14a1.5 1.5 0 0 1 0 3.5zM6 11V6h12v5H6z" />
+  </svg>
+</button>
 )}
 
 
@@ -542,7 +543,7 @@ function bindStopPopup(feature, layer) {
           </button>
 
           <h2 id="help-title">
-            How to use the story map
+            How to Submit Bus Stop Stories
           </h2>
 
           <ol className="help-steps">
@@ -616,14 +617,14 @@ function bindStopPopup(feature, layer) {
             ×
           </button>
 
-          <h1>People You Meet on the Bus</h1>
+          <h1>Bus Stop Stories</h1>
 
           <p>
             Tap the map, then share an IndyGo story.
           </p>
 
           <textarea
-            placeholder="Tell your story."
+            placeholder="Share your bus stopstory."
             value={storyText}
             onChange={(event) => setStoryText(event.target.value)}
           />

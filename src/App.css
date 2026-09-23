@@ -1,35 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap");
+
 /* ---------- Brand Variables ---------- */
 
 :root {
+  /* IndyGo Primary Palette */
   --brand-blue: #0854a0;
   --brand-blue-dark: #063f78;
   --brand-blue-light: #eaf2fb;
 
-  --color-background: #f7f9fb;
-  --color-surface: rgba(255, 255, 255, 0.9);
-  --color-text: #1f2933;
-  --color-text-muted: #5f6b76;
-  --color-border: rgba(8, 84, 160, 0.2);
-  --color-input-border: #cbd5df;
+  --brand-green: #3DAE2B;
+  --brand-green-dark: #2f8f22;
+  --brand-green-light: #eaf7e7;
 
-  --font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Roboto,
-    Helvetica,
+  /* IndyGo Secondary / Neutral Palette */
+  --brand-gray: #4a4f54;
+
+  /* Interface Colors */
+  --color-background: #f7f9fb;
+  --color-surface: rgba(255, 255, 255, 0.94);
+  --color-text: #1f2933;
+  --color-text-muted: #4a4f54;
+  --color-border: rgba(0, 83, 159, 0.2);
+  --color-input-border: #c7ced6;
+
+  /*
+    IndyGo typography:
+    Greycliff CF = headings
+    Source Sans Pro = body/interface text
+
+    System fonts remain as fallbacks.
+  
+  --font-heading:
+    "Greycliff CF",
+    "Arial Black",
     Arial,
     sans-serif;
 
+  --font-body:
+    "Source Sans Pro",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+    */
+
+    --font-family:
+  "Source Sans 3",
+  Arial,
+  sans-serif;
+
+  /* Shape */
   --radius-small: 8px;
   --radius-medium: 12px;
   --radius-large: 16px;
   --radius-pill: 999px;
 
+  /* Elevation */
   --shadow-small: 0 3px 10px rgba(0, 0, 0, 0.14);
   --shadow-medium: 0 6px 24px rgba(0, 0, 0, 0.18);
   --shadow-large: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
+
 
 /* ---------- Global ---------- */
 
@@ -104,9 +134,9 @@ button {
   margin: 0;
   color: var(--brand-blue);
   font-family: var(--font-family);
-  font-size: 1.2rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-size: 1.25rem;
+  font-weight: 800;
+  line-height: 1.15;
   letter-spacing: -0.01em;
 }
 
@@ -114,8 +144,7 @@ button {
 /* ---------- Shared Primary Buttons ---------- */
 
 .open-story-button,
-.submit-story-button,
-.help-button {
+.submit-story-button {
   border: none;
   background: var(--brand-blue);
   color: white;
@@ -128,14 +157,12 @@ button {
 }
 
 .open-story-button:hover,
-.submit-story-button:hover,
-.help-button:hover {
+.submit-story-button:hover {
   background: var(--brand-blue-dark);
 }
 
 .open-story-button:active,
-.submit-story-button:active,
-.help-button:active {
+.submit-story-button:active {
   transform: translateY(1px);
 }
 
@@ -148,6 +175,7 @@ button {
 
   width: min(390px, calc(100% - 2rem));
   max-height: calc(100vh - 2rem);
+
   margin: 0;
   padding: 1rem;
 
@@ -167,6 +195,7 @@ button {
 .story-form label {
   display: block;
   margin-top: 0.75rem;
+
   font-weight: 600;
 }
 
@@ -174,12 +203,14 @@ button {
 .story-form textarea,
 .story-form select {
   width: 100%;
+
   margin-top: 0.4rem;
   padding: 0.8rem;
 
   border: 1px solid var(--color-input-border);
   border-radius: var(--radius-medium);
-  background: white;
+
+  background: #ffffff;
   color: var(--color-text);
 }
 
@@ -187,7 +218,9 @@ button {
 .story-form textarea:focus,
 .story-form select:focus {
   border-color: var(--brand-blue);
-  outline: 3px solid rgba(8, 84, 160, 0.15);
+
+  outline: 3px solid rgba(0, 83, 159, 0.16);
+  outline-offset: 0;
 }
 
 .story-form textarea {
@@ -197,6 +230,7 @@ button {
 
 .submit-story-button {
   width: 100%;
+
   margin-top: 0.75rem;
   padding: 0.8rem;
 
@@ -212,12 +246,15 @@ button {
   gap: 0.5rem;
 
   margin-top: 0.75rem;
+
   font-weight: 400;
 }
 
 .checkbox-row input {
   width: auto;
   margin: 0;
+
+  accent-color: var(--brand-blue);
 }
 
 
@@ -231,12 +268,15 @@ button {
   z-index: 1000;
 
   width: auto;
+
   margin: 0;
   padding: 0.9rem 1.4rem;
 
   border-radius: var(--radius-pill);
+
   font-size: 0.95rem;
 }
+
 
 /* ---------- Close Buttons ---------- */
 
@@ -254,15 +294,20 @@ button {
 
   border: none;
   border-radius: 50%;
+
   background: transparent;
   color: var(--color-text);
 
   line-height: 1;
+
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .close-form-button:hover,
 .close-help-button:hover,
-.clock-network-button:hover {
+.close-network-button:hover {
   background: var(--brand-blue-light);
   color: var(--brand-blue);
 }
@@ -288,6 +333,7 @@ button {
   z-index: 1200;
 
   max-width: 360px;
+
   padding: 1.25rem;
 }
 
@@ -296,14 +342,20 @@ button {
 }
 
 .help-steps {
-  font-size: 14px;
   margin: 0;
   padding-left: 1.25rem;
+
+  font-size: 0.9rem;
 }
 
 .help-steps li {
   margin-bottom: 0.45rem;
+
   line-height: 1.4;
+}
+
+.help-steps li::marker {
+  font-weight: 700;
 }
 
 .help-steps li:last-child {
@@ -314,9 +366,10 @@ button {
   margin-top: 0.75rem;
   padding-top: 0.8rem;
 
-  border-top: 1px solid rgba(8, 84, 160, 0.15);
+  border-top: 1px solid rgba(0, 83, 159, 0.15);
 
   color: var(--color-text-muted);
+
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -332,6 +385,7 @@ button {
 }
 
 
+
 /* ---------- Minimized Help Button ---------- */
 
 .help-button {
@@ -340,15 +394,38 @@ button {
   left: 1rem;
   z-index: 1200;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   width: 44px;
   height: 44px;
   margin: 0;
   padding: 0;
 
-  border: 2px solid white;
+  border: 2px solid #ffffff;
   border-radius: 50%;
+  background: var(--brand-green);
+  color: #ffffff;
 
-  font-size: 1.3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+
+  box-shadow: var(--shadow-medium);
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.help-button:hover {
+  background: var(--brand-green-dark);
+}
+
+.help-button:active {
+  transform: translateY(1px);
 }
 
 
@@ -356,6 +433,7 @@ button {
 
 .message {
   margin-top: 0.75rem;
+
   font-weight: 600;
 }
 
@@ -363,16 +441,20 @@ button {
   position: absolute;
   top: 1rem;
   left: 50%;
+
   z-index: 1200;
 
   max-width: calc(100% - 2rem);
+
   padding: 0.75rem 1rem;
 
   transform: translateX(-50%);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-medium);
+
   background: var(--color-surface);
+
   box-shadow: var(--shadow-medium);
 
   font-weight: 600;
@@ -384,12 +466,14 @@ button {
 
 .leaflet-popup-content-wrapper {
   border-radius: var(--radius-medium);
+
   color: var(--color-text);
+
   font-family: var(--font-family);
 }
 
 .leaflet-popup-tip {
-  background: white;
+  background: #ffffff;
 }
 
 .story-popup {
@@ -398,19 +482,25 @@ button {
 
 .popup-route {
   margin: 0 0 0.5rem;
+
   color: var(--brand-blue);
-  font-weight: 700;
+
+  font-family: var(--font-family);
+  font-weight: 800;
 }
 
 .popup-story {
   margin: 0 0 0.75rem;
+
   font-size: 0.95rem;
   line-height: 1.4;
 }
 
 .popup-author {
   margin: 0;
+
   color: var(--color-text-muted);
+
   font-size: 0.8rem;
 }
 
@@ -421,15 +511,20 @@ button {
   position: absolute;
   bottom: 5rem;
   left: 50%;
-  transform: translateX(-50%);
+
   z-index: 1250;
 
   min-width: 190px;
+
   padding: 0.75rem;
+
+  transform: translateX(-50%);
 
   border: 1px solid var(--color-border);
   border-radius: var(--radius-medium);
+
   background: var(--color-surface);
+
   box-shadow: var(--shadow-medium);
 
   backdrop-filter: blur(8px);
@@ -438,32 +533,42 @@ button {
 
 .network-toggle label {
   display: block;
+
   margin-bottom: 0.4rem;
 
-  color: var(--color-text);
-  font-size: 0.85rem;
-  font-weight: 700;
+  color: var(--brand-blue);
+
+font-family: var(--font-family);
+  font-size: 0.9rem;
+  font-weight: 800;
 }
 
 .network-toggle select {
   width: 100%;
+
   padding: 0.6rem 0.7rem;
 
   border: 1px solid var(--color-input-border);
   border-radius: var(--radius-small);
-  background: white;
+
+  background: #ffffff;
   color: var(--color-text);
+
   font-size: 0.9rem;
 }
 
 .network-toggle select:focus {
   border-color: var(--brand-blue);
-  outline: 3px solid rgba(8, 84, 160, 0.15);
+
+  outline: 3px solid rgba(0, 83, 159, 0.16);
 }
+
+
+/* ---------- Network Button ---------- */
 
 .network-button {
   position: absolute;
- top: 4.75rem;
+  top: 4.75rem;
   left: 1rem;
   z-index: 1250;
 
@@ -476,11 +581,12 @@ button {
   margin: 0;
   padding: 0;
 
-  border: 2px solid white;
+  border: 2px solid #ffffff;
   border-radius: 50%;
-  background: var(--brand-blue);
+  background: var(--brand-green);
+  color: #ffffff;
 
-  box-shadow: var(--shadow-small);
+  box-shadow: var(--shadow-medium);
   cursor: pointer;
 
   transition:
@@ -489,17 +595,18 @@ button {
 }
 
 .network-button:hover {
-  background: var(--brand-blue-dark);
+  background: var(--brand-green-dark);
 }
 
 .network-button:active {
   transform: translateY(1px);
 }
 
-.network-button img {
-  width: 22px;
-  height: 22px;
+.network-button svg {
   display: block;
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
 
 .close-network-button {
@@ -513,9 +620,21 @@ button {
 }
 
 
+/* ---------- Keyboard Accessibility ---------- */
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid rgba(0, 83, 159, 0.35);
+  outline-offset: 2px;
+}
+
+
 /* ---------- Mobile ---------- */
 
 @media (max-width: 600px) {
+
   .story-form {
     top: auto;
     right: 0.75rem;
@@ -531,15 +650,19 @@ button {
     bottom: 0.75rem;
   }
 
-.help-panel {
-  height: fit-content;
-  max-height: calc(100vh - 2rem);
-  overflow-y: auto;
-}
+  .help-panel {
+    height: fit-content;
+    max-height: calc(100vh - 2rem);
+
+    overflow-y: auto;
+  }
 
   .help-button {
     top: 0.75rem;
     left: 0.75rem;
+
+    width: 42px;
+    height: 42px;
   }
 
   .network-toggle {
@@ -554,25 +677,32 @@ button {
   }
 
   /* Story form open and Help panel closed */
+
   .network-toggle.network-toggle-form-open {
     top: auto;
     bottom: calc(75vh + 1.5rem);
   }
 
   /* Story form and Help panel both open */
+
   .network-toggle.network-toggle-form-open.network-toggle-help-open {
     top: 22.5rem;
     bottom: auto;
+
     z-index: 1250;
   }
 
-@media (max-width: 600px) {
   .network-button {
- top: 4.25rem;
-  left: 0.75rem;
+    top: 4.25rem;
+    left: 0.75rem;
 
     width: 42px;
     height: 42px;
   }
-}
+
+  .network-button svg {
+    width: 23px;
+    height: 23px;
+  }
+
 }
