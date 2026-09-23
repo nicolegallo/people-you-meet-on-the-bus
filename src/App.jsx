@@ -567,8 +567,10 @@ function bindStopPopup(feature, layer) {
           </button>
 
           <h2 id="help-title">
-            How to Submit Bus Stop Stories
+            Bus Stop Stories
           </h2>
+
+          <h3 className="help-steps">How to Submit a Story</h3>
 
           <ol className="help-steps">
             <li>
