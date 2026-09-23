@@ -14,7 +14,7 @@ import L from 'leaflet'
 import busStopMarker from './assets/bus-stop-marker.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
-import mapsIcon from './assets/maps-icon.svg'
+//import mapsIcon from './assets/maps-icon.svg'
 
 import 'leaflet/dist/leaflet.css'
 import './App.css'
@@ -280,7 +280,8 @@ function pastRouteStyle() {
   }
 
 
-  function bindRoutePopup(feature, layer) {
+  
+function bindRoutePopup(feature, layer) {
   const properties = feature.properties || {}
 
   const routeNumber =
@@ -308,9 +309,17 @@ function pastRouteStyle() {
   layer.bindPopup(popupParts.join('<br>'))
 
   layer.on('click', (event) => {
-  setSelectedPosition(event.latlng)
-  setIsFormOpen(false)
-})
+    // Drop the story location pin where the route was clicked
+    setSelectedPosition(event.latlng)
+    setIsFormOpen(false)
+
+    // Minimize the Help and Transit Network panels
+    setIsHelpOpen(false)
+    setIsNetworkOpen(false)
+
+    // Count this as the user's first map interaction
+    setHasInteractedWithMap(true)
+  })
 }
 
 
@@ -338,9 +347,17 @@ function bindStopPopup(feature, layer) {
   layer.bindPopup(popupParts.join('<br>'))
 
   layer.on('click', () => {
-  setSelectedPosition(layer.getLatLng())
-  setIsFormOpen(false)
-})
+    // Drop the story location pin directly on the bus stop
+    setSelectedPosition(layer.getLatLng())
+    setIsFormOpen(false)
+
+    // Minimize the Help and Transit Network panels
+    setIsHelpOpen(false)
+    setIsNetworkOpen(false)
+
+    // Count this as the user's first map interaction
+    setHasInteractedWithMap(true)
+  })
 }
 
 
@@ -440,13 +457,20 @@ function bindStopPopup(feature, layer) {
         )}
 
         {approvedStories.map((story) => (
-          <Marker
-            key={story.id}
-            position={[story.lat, story.lng]}
-            icon={storyIcon}
-          >
-            <Popup>
-              <div className="story-popup">
+  <Marker
+    key={story.id}
+    position={[story.lat, story.lng]}
+    icon={storyIcon}
+    eventHandlers={{
+      click: () => {
+        setIsHelpOpen(false)
+        setIsNetworkOpen(false)
+        setHasInteractedWithMap(true)
+      },
+    }}
+  >
+    <Popup>
+      <div className="story-popup">
                 {story.route && (
                   <p className="popup-route">
                     Route: {story.route}
@@ -624,7 +648,7 @@ function bindStopPopup(feature, layer) {
           </p>
 
           <textarea
-            placeholder="Share your bus stopstory."
+            placeholder="Share your bus stop story."
             value={storyText}
             onChange={(event) => setStoryText(event.target.value)}
           />
