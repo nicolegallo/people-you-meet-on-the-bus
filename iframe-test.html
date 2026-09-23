@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>Bus Stop Stories Embed Test</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    header {
+      padding: 24px;
+      background: #ffffff;
+      text-align: center;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 20px;
+    }
+
+    .embed-container {
+      width: 100%;
+      height: 800px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: #ffffff;
+    }
+
+    .embed-container iframe {
+      display: block;
+      width: 100%;
+  height: min(800px, 85vh);
+      border: 0;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        padding: 16px;
+      }
+
+      header h1 {
+        margin: 0 0 8px;
+        font-size: 1.5rem;
+      }
+
+      header p {
+        margin: 0;
+      }
+
+      main {
+        padding: 16px 0;
+      }
+
+      .embed-container {
+        height: 80vh;
+        min-height: 650px;
+        border-radius: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>Bus Stop Stories</h1>
+    <p>Share and explore stories from IndyGo riders.</p>
+  </header>
+
+  <main>
+    <div class="embed-container">
+      <iframe
+        src="https://bus-stop-stories.vercel.app"
+        title="Bus Stop Stories"
+        allow="fullscreen"
+      ></iframe>
+    </div>
+  </main>
+
+</body>
+</html>
