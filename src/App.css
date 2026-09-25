@@ -141,7 +141,7 @@ button {
 
 
   .help-panel h2 {
-  margin: 0 0 0.9rem;
+  margin: 0;
   padding: 0 2.5rem;
   text-align: center;
   color: var(--brand-blue);
@@ -725,4 +725,45 @@ select:focus-visible {
     height: 23px;
   }
 
+}
+
+/* ---------- Help Panel Branding ---------- */
+
+.help-brand-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+
+  width: 100%;
+  margin: 0;
+  padding: 0 2rem;
+}
+
+.help-brand-title h2 {
+  width: auto;
+  margin: 0;
+  padding: 0;
+
+  color: var(--brand-blue);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.15;
+  text-align: left;
+}
+
+.indygo-logo-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.indygo-logo {
+  display: block;
+  width: auto;
+  height: 60px;
+}
+
+.indygo-logo-link:hover {
+  opacity: 0.8;
 }

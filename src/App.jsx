@@ -14,6 +14,7 @@ import L from 'leaflet'
 import busStopMarker from './assets/bus-stop-marker.png'
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import markerShadow from 'leaflet/dist/images/marker-shadow.png'
+import indyGoLogo from './assets/indygo-logo.png'
 //import mapsIcon from './assets/maps-icon.svg'
 
 import 'leaflet/dist/leaflet.css'
@@ -566,9 +567,25 @@ function bindStopPopup(feature, layer) {
             ×
           </button>
 
-          <h2 id="help-title">
-            Bus Stop Stories
-          </h2>
+          <div className="help-brand-title">
+  <a
+    href="https://www.indygo.net/cares/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit IndyGo Cares"
+    className="indygo-logo-link"
+  >
+    <img
+      src={indyGoLogo}
+      alt="IndyGo"
+      className="indygo-logo"
+    />
+  </a>
+
+  <h2 id="help-title">
+    Bus Stop Stories
+  </h2>
+</div>
 
           <h3 className="help-steps">How to Submit a Story</h3>
 
@@ -643,7 +660,25 @@ function bindStopPopup(feature, layer) {
             ×
           </button>
 
-          <h1>Bus Stop Stories</h1>
+          <div className="help-brand-title">
+  <a
+    href="https://www.indygo.net/cares/"
+    target="_blank"
+    rel="noopener noreferrer"
+    aria-label="Visit IndyGo Cares"
+    className="indygo-logo-link"
+  >
+    <img
+      src={indyGoLogo}
+      alt="IndyGo"
+      className="indygo-logo"
+    />
+  </a>
+
+  <h1 id="help-title">
+    Bus Stop Stories
+  </h1>
+</div>
 
           <p>
             Tap the map, then share an IndyGo story.
