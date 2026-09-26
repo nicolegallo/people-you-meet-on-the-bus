@@ -1,10 +1,35 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Admin() {
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isCheckingSession, setIsCheckingSession] = useState(true)
+
+  useEffect(() => {
+  async function checkSession() {
+    try {
+      const response = await fetch('/api/admin-session')
+
+      if (!response.ok) {
+        setIsAuthenticated(false)
+        return
+      }
+
+      const data = await response.json()
+
+      setIsAuthenticated(data.authenticated === true)
+    } catch (error) {
+      console.error('Session check error:', error)
+      setIsAuthenticated(false)
+    } finally {
+      setIsCheckingSession(false)
+    }
+  }
+
+  checkSession()
+}, [])
 
   async function handleLogin(event) {
     event.preventDefault()
@@ -41,6 +66,17 @@ export default function Admin() {
       setIsLoading(false)
     }
   }
+
+  if (isCheckingSession) {
+  return (
+    <main>
+      <h1>Bus Stop Stories</h1>
+      <h2>Moderator Dashboard</h2>
+
+      <p>Checking moderator session...</p>
+    </main>
+  )
+}
 
   if (isAuthenticated) {
     return (
