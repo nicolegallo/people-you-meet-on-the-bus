@@ -6,6 +6,7 @@ import {
   Popup,
   GeoJSON,
   useMapEvents,
+  useMap,
   ZoomControl,
 } from 'react-leaflet'
 import L from 'leaflet'
@@ -62,6 +63,38 @@ function LocationPicker({
       }
     },
   })
+
+  return null
+}
+
+function MapSizeFix() {
+  const map = useMap()
+
+  useEffect(() => {
+    const refreshMapSize = () => {
+      map.invalidateSize()
+    }
+
+    // Run after the initial browser layout settles
+    const firstTimeout = setTimeout(refreshMapSize, 250)
+
+    // Run again for slower mobile/in-app browser resizing
+    const secondTimeout = setTimeout(refreshMapSize, 750)
+
+    // Recalculate whenever the browser viewport changes
+    window.addEventListener('resize', refreshMapSize)
+
+    // Especially useful on mobile when orientation changes
+    window.addEventListener('orientationchange', refreshMapSize)
+
+    return () => {
+      clearTimeout(firstTimeout)
+      clearTimeout(secondTimeout)
+
+      window.removeEventListener('resize', refreshMapSize)
+      window.removeEventListener('orientationchange', refreshMapSize)
+    }
+  }, [map])
 
   return null
 }
@@ -365,18 +398,20 @@ function bindStopPopup(feature, layer) {
   return (
     <div className="app">
       <MapContainer
-        center={[39.7684, -86.1581]}
-        zoom={12}
-        className="map"
-        zoomControl={false}
-      >
-        <TileLayer
-  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
-  url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${import.meta.env.VITE_CARTO_API_KEY}`}
-  subdomains="abcd"
-/>
+  center={[39.7684, -86.1581]}
+  zoom={12}
+  className="map"
+  zoomControl={false}
+>
+  <MapSizeFix />
 
-        <ZoomControl position="bottomleft" />
+  <TileLayer
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
+    url={`https://{s}.basemaps.cartocdn.com/rastertiles/light_all/{z}/{x}/{y}{r}.png?key=${import.meta.env.VITE_CARTO_API_KEY}`}
+    subdomains="abcd"
+  />
+
+  <ZoomControl position="bottomleft" />
 
         {selectedNetwork === '2022' && routes2022 && (
           <GeoJSON
