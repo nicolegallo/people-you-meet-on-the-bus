@@ -151,75 +151,149 @@ export default function Admin() {
 
   // Moderator is authenticated
   if (isAuthenticated) {
-    return (
-      <main>
-        <h1>Bus Stop Stories</h1>
-        <h2>Moderator Dashboard</h2>
+  return (
+    <main className="admin-page">
+      <header className="admin-header">
+        <div>
+          <p className="admin-eyebrow">Bus Stop Stories</p>
+          <h1>Moderator Dashboard</h1>
+          <p className="admin-subtitle">
+            Review stories submitted by IndyGo riders.
+          </p>
+        </div>
 
-        <p>
-          {pendingStories.length}{' '}
-          {pendingStories.length === 1
-            ? 'story awaiting review'
-            : 'stories awaiting review'}
-        </p>
+        <div className="admin-count">
+          <strong>{pendingStories.length}</strong>
+          <span>
+            {pendingStories.length === 1
+              ? 'story awaiting review'
+              : 'stories awaiting review'}
+          </span>
+        </div>
+      </header>
 
-        {storiesLoading ? (
+      {storiesLoading ? (
+        <div className="admin-empty-state">
           <p>Loading submissions...</p>
-        ) : pendingStories.length === 0 ? (
+        </div>
+      ) : pendingStories.length === 0 ? (
+        <div className="admin-empty-state">
+          <h2>You're all caught up!</h2>
           <p>No stories are currently awaiting review.</p>
-        ) : (
-          <div>
-            {pendingStories.map((story) => (
-              <article key={story.id}>
-                <h3>
-                  {story.route
-                    ? `Route ${story.route}`
-                    : 'Route not provided'}
-                </h3>
+        </div>
+      ) : (
+        <section
+          className="moderation-list"
+          aria-label="Pending story submissions"
+        >
+          {pendingStories.map((story) => (
+            <article
+              key={story.id}
+              className="moderation-card"
+            >
+              <div className="moderation-card-header">
+                <span className="status-badge">
+                  Pending
+                </span>
 
-                <p>{story.story_text}</p>
+                <time dateTime={story.created_at}>
+                  {new Date(story.created_at).toLocaleString(
+                    undefined,
+                    {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                      hour: 'numeric',
+                      minute: '2-digit',
+                    }
+                  )}
+                </time>
+              </div>
 
-                <p>
-                  Submitted by:{' '}
-                  {story.is_anonymous
-                    ? 'Anonymous'
-                    : story.display_name || 'Not provided'}
-                </p>
+              <blockquote className="moderation-story">
+                “{story.story_text}”
+              </blockquote>
 
-                <p>
-                  Submitted:{' '}
-                  {new Date(story.created_at).toLocaleString()}
-                </p>
-
-                <p>
-                  Location: {story.lat}, {story.lng}
-                </p>
+              <div className="moderation-details">
                 <div>
-  <button
-    type="button"
-    onClick={() => handleModeration(story.id, 'deny')}
-    disabled={moderatingStoryId === story.id}
-  >
-    {moderatingStoryId === story.id ? 'Processing...' : 'Deny'}
-  </button>
+                  <span className="detail-label">
+                    Route
+                  </span>
 
-  <button
-    type="button"
-    onClick={() => handleModeration(story.id, 'approve')}
-    disabled={moderatingStoryId === story.id}
-  >
-    {moderatingStoryId === story.id ? 'Processing...' : 'Approve'}
-  </button>
-</div>
-              </article>
-            ))}
-          </div>
-        )}
+                  <span className="detail-value">
+                    {story.route
+                      ? `Route ${story.route}`
+                      : 'Not provided'}
+                  </span>
+                </div>
 
-        {message && <p>{message}</p>}
-      </main>
-    )
-  }
+                <div>
+                  <span className="detail-label">
+                    Submitted by
+                  </span>
+
+                  <span className="detail-value">
+                    {story.is_anonymous
+                      ? 'Anonymous'
+                      : story.display_name || 'Not provided'}
+                  </span>
+                </div>
+              </div>
+
+              <div className="moderation-location">
+                <span className="detail-label">
+                  Location
+                </span>
+
+                <span className="detail-value">
+                  {story.lat}, {story.lng}
+                </span>
+              </div>
+
+              <div className="moderation-actions">
+                <button
+                  type="button"
+                  className="deny-story-button"
+                  onClick={() =>
+                    handleModeration(story.id, 'deny')
+                  }
+                  disabled={
+                    moderatingStoryId === story.id
+                  }
+                >
+                  {moderatingStoryId === story.id
+                    ? 'Processing...'
+                    : 'Deny'}
+                </button>
+
+                <button
+                  type="button"
+                  className="approve-story-button"
+                  onClick={() =>
+                    handleModeration(story.id, 'approve')
+                  }
+                  disabled={
+                    moderatingStoryId === story.id
+                  }
+                >
+                  {moderatingStoryId === story.id
+                    ? 'Processing...'
+                    : 'Approve'}
+                </button>
+              </div>
+            </article>
+          ))}
+        </section>
+      )}
+
+      {message && (
+        <p className="admin-message">
+          {message}
+        </p>
+      )}
+    </main>
+  )
+}
 
   // Moderator is not authenticated
   return (
