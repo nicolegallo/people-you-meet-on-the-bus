@@ -6,31 +6,66 @@ export default function Admin() {
   const [isLoading, setIsLoading] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [isCheckingSession, setIsCheckingSession] = useState(true)
+  const [pendingStories, setPendingStories] = useState([])
+  const [storiesLoading, setStoriesLoading] = useState(false)
 
+  // Check whether the moderator already has a valid session
   useEffect(() => {
-  async function checkSession() {
-    try {
-      const response = await fetch('/api/admin-session')
+    async function checkSession() {
+      try {
+        const response = await fetch('/api/admin-session')
 
-      if (!response.ok) {
+        if (!response.ok) {
+          setIsAuthenticated(false)
+          return
+        }
+
+        const data = await response.json()
+
+        setIsAuthenticated(data.authenticated === true)
+      } catch (error) {
+        console.error('Session check error:', error)
         setIsAuthenticated(false)
-        return
+      } finally {
+        setIsCheckingSession(false)
       }
-
-      const data = await response.json()
-
-      setIsAuthenticated(data.authenticated === true)
-    } catch (error) {
-      console.error('Session check error:', error)
-      setIsAuthenticated(false)
-    } finally {
-      setIsCheckingSession(false)
     }
-  }
 
-  checkSession()
-}, [])
+    checkSession()
+  }, [])
 
+  // Load pending stories after authentication
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return
+    }
+
+    async function loadPendingStories() {
+      setStoriesLoading(true)
+      setMessage('')
+
+      try {
+        const response = await fetch('/api/admin-stories')
+
+        if (!response.ok) {
+          throw new Error('Unable to retrieve pending stories')
+        }
+
+        const data = await response.json()
+
+        setPendingStories(data.stories || [])
+      } catch (error) {
+        console.error('Pending stories error:', error)
+        setMessage('Unable to load pending submissions.')
+      } finally {
+        setStoriesLoading(false)
+      }
+    }
+
+    loadPendingStories()
+  }, [isAuthenticated])
+
+  // Handle moderator password login
   async function handleLogin(event) {
     event.preventDefault()
 
@@ -67,38 +102,80 @@ export default function Admin() {
     }
   }
 
+  // Session is still being checked
   if (isCheckingSession) {
-  return (
-    <main>
-      <h1>Bus Stop Stories</h1>
-      <h2>Moderator Dashboard</h2>
+    return (
+      <main>
+        <h1>Bus Stop Stories</h1>
+        <h2>Moderator Dashboard</h2>
 
-      <p>Checking moderator session...</p>
-    </main>
-  )
-}
+        <p>Checking moderator session...</p>
+      </main>
+    )
+  }
 
+  // Moderator is authenticated
   if (isAuthenticated) {
     return (
       <main>
         <h1>Bus Stop Stories</h1>
         <h2>Moderator Dashboard</h2>
 
-        <p>You're signed in.</p>
+        <p>
+          {pendingStories.length}{' '}
+          {pendingStories.length === 1
+            ? 'story awaiting review'
+            : 'stories awaiting review'}
+        </p>
 
-        <p>Story moderation tools coming next.</p>
+        {storiesLoading ? (
+          <p>Loading submissions...</p>
+        ) : pendingStories.length === 0 ? (
+          <p>No stories are currently awaiting review.</p>
+        ) : (
+          <div>
+            {pendingStories.map((story) => (
+              <article key={story.id}>
+                <h3>
+                  {story.route
+                    ? `Route ${story.route}`
+                    : 'Route not provided'}
+                </h3>
+
+                <p>{story.story_text}</p>
+
+                <p>
+                  Submitted by:{' '}
+                  {story.is_anonymous
+                    ? 'Anonymous'
+                    : story.display_name || 'Not provided'}
+                </p>
+
+                <p>
+                  Submitted:{' '}
+                  {new Date(story.created_at).toLocaleString()}
+                </p>
+
+                <p>
+                  Location: {story.lat}, {story.lng}
+                </p>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {message && <p>{message}</p>}
       </main>
     )
   }
 
+  // Moderator is not authenticated
   return (
     <main>
       <h1>Bus Stop Stories</h1>
       <h2>Moderator Dashboard</h2>
 
-      <p>
-        Enter the moderator password to continue.
-      </p>
+      <p>Enter the moderator password to continue.</p>
 
       <form onSubmit={handleLogin}>
         <label htmlFor="admin-password">
