@@ -15,7 +15,8 @@ body,
 
 .admin-page {
   width: 100%;
-  min-height: 100vh;
+  min-height: 100svh;
+  flex: 1;
   box-sizing: border-box;
   padding: 56px 24px 80px;
   background: #f5f7f8;
