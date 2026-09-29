@@ -298,35 +298,59 @@ export default function Admin() {
 
   // Moderator is not authenticated
   return (
-    <main>
-      <h1>Bus Stop Stories</h1>
-      <h2>Moderator Dashboard</h2>
+  <main className="admin-page admin-login-page">
+    <div className="admin-login-container">
 
-      <p>Enter the moderator password to continue.</p>
+      <div className="admin-login-brand">
+        <p className="admin-eyebrow">Bus Stop Stories</p>
+        <h1>Moderator Dashboard</h1>
+        <p className="admin-login-subtitle">
+          Sign in to review stories submitted by IndyGo riders.
+        </p>
+      </div>
 
-      <form onSubmit={handleLogin}>
-        <label htmlFor="admin-password">
-          Moderator password
-        </label>
+      <section className="admin-login-card">
+        <h2>Moderator Sign In</h2>
 
-        <input
-          id="admin-password"
-          type="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          autoComplete="current-password"
-          required
-        />
+        <p className="admin-login-description">
+          Enter the moderator password to continue.
+        </p>
 
-        <button
-          type="submit"
-          disabled={isLoading}
+        <form
+          className="admin-login-form"
+          onSubmit={handleLogin}
         >
-          {isLoading ? 'Signing In...' : 'Sign In'}
-        </button>
-      </form>
+          <label htmlFor="moderator-password">
+            Moderator password
+          </label>
 
-      {message && <p>{message}</p>}
-    </main>
-  )
+          <input
+            id="moderator-password"
+            type="password"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            placeholder="Enter password"
+            autoComplete="current-password"
+            required
+          />
+
+          <button
+            className="admin-login-button"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+
+        {message && (
+          <p className="admin-login-message">
+            {message}
+          </p>
+        )}
+      </section>
+
+    </div>
+  </main>
+)
 }
