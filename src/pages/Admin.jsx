@@ -8,6 +8,7 @@ export default function Admin() {
   const [isCheckingSession, setIsCheckingSession] = useState(true)
   const [pendingStories, setPendingStories] = useState([])
   const [storiesLoading, setStoriesLoading] = useState(false)
+  const [moderatingStoryId, setModeratingStoryId] = useState(null)
 
   // Check whether the moderator already has a valid session
   useEffect(() => {
@@ -102,6 +103,40 @@ export default function Admin() {
     }
   }
 
+  async function handleModeration(storyId, action) {
+  setModeratingStoryId(storyId)
+  setMessage('')
+
+  try {
+    const response = await fetch('/api/admin-moderate-story', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        storyId,
+        action,
+      }),
+    })
+
+    const data = await response.json()
+
+    if (!response.ok) {
+      setMessage(data.error || 'Unable to moderate story.')
+      return
+    }
+
+    setPendingStories((currentStories) =>
+      currentStories.filter((story) => story.id !== storyId)
+    )
+  } catch (error) {
+    console.error('Story moderation error:', error)
+    setMessage('Unable to connect to the moderation service.')
+  } finally {
+    setModeratingStoryId(null)
+  }
+}
+
   // Session is still being checked
   if (isCheckingSession) {
     return (
@@ -159,6 +194,23 @@ export default function Admin() {
                 <p>
                   Location: {story.lat}, {story.lng}
                 </p>
+                <div>
+  <button
+    type="button"
+    onClick={() => handleModeration(story.id, 'deny')}
+    disabled={moderatingStoryId === story.id}
+  >
+    {moderatingStoryId === story.id ? 'Processing...' : 'Deny'}
+  </button>
+
+  <button
+    type="button"
+    onClick={() => handleModeration(story.id, 'approve')}
+    disabled={moderatingStoryId === story.id}
+  >
+    {moderatingStoryId === story.id ? 'Processing...' : 'Approve'}
+  </button>
+</div>
               </article>
             ))}
           </div>
