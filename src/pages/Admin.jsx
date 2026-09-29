@@ -104,6 +104,26 @@ export default function Admin() {
     }
   }
 
+  async function handleLogout() {
+  try {
+    const response = await fetch('/api/admin-logout', {
+      method: 'POST',
+    })
+
+    if (!response.ok) {
+      throw new Error('Unable to sign out')
+    }
+
+    setIsAuthenticated(false)
+    setPendingStories([])
+    setMessage('')
+    setPassword('')
+  } catch (error) {
+    console.error('Admin logout error:', error)
+    setMessage('Unable to sign out. Please try again.')
+  }
+}
+
   async function handleModeration(storyId, action) {
   setModeratingStoryId(storyId)
   setMessage('')
@@ -155,23 +175,35 @@ export default function Admin() {
   return (
     <main className="admin-page">
       <header className="admin-header">
-        <div>
-          <p className="admin-eyebrow">Bus Stop Stories</p>
-          <h1>Moderator Dashboard</h1>
-          <p className="admin-subtitle">
-            Review stories submitted by IndyGo riders.
-          </p>
-        </div>
+  <div className="admin-header-top">
+    <p className="admin-eyebrow">
+      Bus Stop Stories
+    </p>
 
-        <div className="admin-count">
-          <strong>{pendingStories.length}</strong>
-          <span>
-            {pendingStories.length === 1
-              ? 'story awaiting review'
-              : 'stories awaiting review'}
-          </span>
-        </div>
-      </header>
+    <button
+      type="button"
+      className="admin-logout-button"
+      onClick={handleLogout}
+    >
+      Sign Out
+    </button>
+  </div>
+
+  <h1>Moderator Dashboard</h1>
+
+  <p className="admin-subtitle">
+    Review stories submitted by IndyGo riders.
+  </p>
+
+  <div className="admin-count">
+    <strong>{pendingStories.length}</strong>
+    <span>
+      {pendingStories.length === 1
+        ? 'story awaiting review'
+        : 'stories awaiting review'}
+    </span>
+  </div>
+</header>
 
       {storiesLoading ? (
         <div className="admin-empty-state">
