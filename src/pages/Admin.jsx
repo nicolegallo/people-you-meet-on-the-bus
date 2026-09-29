@@ -10,6 +10,7 @@ export default function Admin() {
   const [pendingStories, setPendingStories] = useState([])
   const [storiesLoading, setStoriesLoading] = useState(false)
   const [moderatingStoryId, setModeratingStoryId] = useState(null)
+  const [successMessage, setSuccessMessage] = useState('')
 
   // Check whether the moderator already has a valid session
   useEffect(() => {
@@ -35,6 +36,18 @@ export default function Admin() {
 
     checkSession()
   }, [])
+
+  useEffect(() => {
+  if (!successMessage) {
+    return
+  }
+
+  const timer = setTimeout(() => {
+    setSuccessMessage('')
+  }, 4000)
+
+  return () => clearTimeout(timer)
+}, [successMessage])
 
   // Load pending stories after authentication
   useEffect(() => {
@@ -127,6 +140,7 @@ export default function Admin() {
   async function handleModeration(storyId, action) {
   setModeratingStoryId(storyId)
   setMessage('')
+  setSuccessMessage('')
 
   try {
     const response = await fetch('/api/admin-moderate-story', {
@@ -150,6 +164,16 @@ export default function Admin() {
     setPendingStories((currentStories) =>
       currentStories.filter((story) => story.id !== storyId)
     )
+
+    if (action === 'approve') {
+      setSuccessMessage(
+        'Story approved and published to the map.'
+      )
+    } else {
+      setSuccessMessage(
+        'Story denied and removed from the review queue.'
+      )
+    }
   } catch (error) {
     console.error('Story moderation error:', error)
     setMessage('Unable to connect to the moderation service.')
@@ -204,6 +228,23 @@ export default function Admin() {
     </span>
   </div>
 </header>
+
+{successMessage && (
+  <div
+    className="admin-success-message"
+    role="status"
+    aria-live="polite"
+  >
+    <span
+      className="admin-success-icon"
+      aria-hidden="true"
+    >
+      ✓
+    </span>
+
+    <span>{successMessage}</span>
+  </div>
+)}
 
       {storiesLoading ? (
         <div className="admin-empty-state">

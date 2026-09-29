@@ -503,3 +503,44 @@ body:has(.admin-page) #root {
     margin-bottom: 22px;
   }
 }
+
+/* =========================================
+   MODERATION SUCCESS MESSAGE
+   ========================================= */
+
+.admin-success-message {
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  margin: -10px auto 24px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: #edf7f0;
+  border: 1px solid #b7d9c0;
+  border-radius: 10px;
+
+  color: #275c35;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: left;
+}
+
+.admin-success-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+
+  border-radius: 50%;
+  background: #327a46;
+  color: #ffffff;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+}
