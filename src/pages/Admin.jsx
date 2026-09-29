@@ -383,10 +383,10 @@ export default function Admin() {
       </div>
 
       <section className="admin-login-card">
-        <h2>Moderator Sign In</h2>
+        <h2>Sign In</h2>
 
         <p className="admin-login-description">
-          Enter the moderator password to continue.
+          Enter the password to continue.
         </p>
 
         <form
@@ -394,7 +394,7 @@ export default function Admin() {
           onSubmit={handleLogin}
         >
           <label htmlFor="moderator-password">
-            Moderator password
+            Password
           </label>
 
           <input
