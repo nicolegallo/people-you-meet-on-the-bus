@@ -1,11 +1,23 @@
-/* =========================================
-   BUS STOP STORIES — MODERATOR DASHBOARD
-   ========================================= */
+
+
+   html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+#root {
+  max-width: none;
+  padding: 0;
+}
 
 .admin-page {
+  width: 100%;
   min-height: 100vh;
   box-sizing: border-box;
-  padding: 56px 24px;
+  padding: 56px 24px 80px;
   background: #f5f7f8;
   color: #252d38;
   font-family: "Source Sans 3", sans-serif;
