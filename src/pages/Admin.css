@@ -1,21 +1,19 @@
+html:has(.admin-page),
+body:has(.admin-page) {
+  background: #f5f7f8;
+}
 
-
-   html,
-body,
-#root {
+body:has(.admin-page) #root {
   width: 100%;
-  min-height: 100%;
+  max-width: none;
   margin: 0;
+  border-inline: 0;
 }
 
-#root {
-  max-width: none;
-  padding: 0;
-}
 
 .admin-page {
   width: 100%;
-  min-height: 100svh;
+  min-height: 100vh;
   flex: 1;
   box-sizing: border-box;
   padding: 56px 24px 80px;
