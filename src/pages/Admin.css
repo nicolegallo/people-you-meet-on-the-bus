@@ -1,0 +1,294 @@
+/* =========================================
+   BUS STOP STORIES — MODERATOR DASHBOARD
+   ========================================= */
+
+.admin-page {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding: 56px 24px;
+  background: #f5f7f8;
+  color: #252d38;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.admin-header {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto 32px;
+  text-align: left;
+}
+
+.admin-eyebrow {
+  margin: 0 0 6px;
+  color: #00549f;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.admin-header h1 {
+  margin: 0;
+  color: #00549f;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  line-height: 1.1;
+  font-weight: 700;
+}
+
+.admin-subtitle {
+  margin: 10px 0 24px;
+  color: #59636e;
+  font-size: 1.1rem;
+}
+
+.admin-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 8px 14px;
+  background: #ffffff;
+  border: 1px solid #d9e1e8;
+  border-radius: 999px;
+  color: #4c5661;
+}
+
+.admin-count strong {
+  color: #00549f;
+  font-size: 1.15rem;
+}
+
+
+/* =========================================
+   MODERATION LIST
+   ========================================= */
+
+.moderation-list {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  gap: 20px;
+}
+
+
+/* =========================================
+   STORY CARD
+   ========================================= */
+
+.moderation-card {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #d9e1e8;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  text-align: left;
+}
+
+.moderation-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.moderation-card-header time {
+  color: #6b747e;
+  font-size: 0.9rem;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #eef5fb;
+  color: #00549f;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+
+/* =========================================
+   STORY CONTENT
+   ========================================= */
+
+.moderation-story {
+  margin: 0 0 26px;
+  padding: 0;
+  border: 0;
+  color: #252d38;
+  font-size: 1.3rem;
+  line-height: 1.55;
+  font-style: normal;
+}
+
+.moderation-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  padding: 20px 0;
+  border-top: 1px solid #e4e9ed;
+  border-bottom: 1px solid #e4e9ed;
+}
+
+.moderation-details > div,
+.moderation-location {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.detail-label {
+  color: #6b747e;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.detail-value {
+  color: #252d38;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.moderation-location {
+  margin-top: 18px;
+}
+
+
+/* =========================================
+   ACTION BUTTONS
+   ========================================= */
+
+.moderation-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.approve-story-button,
+.deny-story-button {
+  min-width: 110px;
+  padding: 11px 20px;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.approve-story-button {
+  border: 2px solid #00549f;
+  background: #00549f;
+  color: #ffffff;
+}
+
+.approve-story-button:hover:not(:disabled) {
+  background: #003f78;
+  border-color: #003f78;
+}
+
+.deny-story-button {
+  border: 2px solid #aeb7c0;
+  background: #ffffff;
+  color: #3d4650;
+}
+
+.deny-story-button:hover:not(:disabled) {
+  background: #f0f2f4;
+  border-color: #89939d;
+}
+
+.approve-story-button:active:not(:disabled),
+.deny-story-button:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.approve-story-button:disabled,
+.deny-story-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
+/* =========================================
+   EMPTY / MESSAGE STATES
+   ========================================= */
+
+.admin-empty-state {
+  width: 100%;
+  max-width: 900px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 60px 30px;
+  background: #ffffff;
+  border: 1px solid #d9e1e8;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.admin-empty-state h2 {
+  margin: 0 0 8px;
+  color: #00549f;
+}
+
+.admin-empty-state p {
+  margin: 0;
+  color: #59636e;
+}
+
+.admin-message {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto 0;
+}
+
+
+/* =========================================
+   MOBILE
+   ========================================= */
+
+@media (max-width: 600px) {
+  .admin-page {
+    padding: 32px 16px;
+  }
+
+  .admin-header h1 {
+    font-size: 2rem;
+  }
+
+  .moderation-card {
+    padding: 20px;
+  }
+
+  .moderation-card-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .moderation-details {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .moderation-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .approve-story-button,
+  .deny-story-button {
+    width: 100%;
+    min-width: 0;
+  }
+}
