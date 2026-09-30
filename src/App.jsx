@@ -126,6 +126,8 @@ export default function App() {
   const [isHelpOpen, setIsHelpOpen] = useState(true)
   const [isNetworkOpen, setIsNetworkOpen] = useState(true)
 const [hasInteractedWithMap, setHasInteractedWithMap] = useState(false)
+const [contactInfo, setContactInfo] = useState('')
+const [canShare, setCanShare] = useState(true)
 
 
   useEffect(() => {
@@ -741,15 +743,35 @@ function bindStopPopup(feature, layer) {
 
             Submit anonymously
           </label>
+          
 
           {!isAnonymous && (
-            <input
-              type="text"
-              placeholder="Display name or nickname"
-              value={displayName}
-              onChange={(event) => setDisplayName(event.target.value)}
-            />
-          )}
+  <input
+    type="text"
+    placeholder="Name"
+    value={displayName}
+    onChange={(event) => setDisplayName(event.target.value)}
+  />
+)}
+
+
+
+<label className="checkbox-row">
+  <input
+    type="checkbox"
+    checked={canShare}
+    onChange={(event) => setCanShare(event.target.checked)}
+  />
+  <i>IndyGo may share my story in communications or promotional materials.</i>
+</label>
+<input
+  type="text"
+  placeholder="Email or phone number (optional)"
+  value={contactInfo}
+  onChange={(event) => setContactInfo(event.target.value)}
+/>
+
+          
 
           <button
             type="submit"
