@@ -255,17 +255,21 @@ async function load2024Network() {
       return
     }
 
-    const { error } = await supabase.from('stories').insert([
-      {
-        story_text: storyText.trim(),
-        display_name: isAnonymous ? null : displayName.trim(),
-        is_anonymous: isAnonymous,
-        route: route.trim(),
-        lat: selectedPosition.lat,
-        lng: selectedPosition.lng,
-        status: 'pending',
-      },
-    ])
+    const { error } = await supabase
+  .from('stories')
+  .insert([
+    {
+      story_text: storyText,
+      display_name: isAnonymous ? null : displayName,
+      is_anonymous: isAnonymous,
+      contact_info: contactInfo.trim() || null,
+      can_share: canShare,
+      route: route,
+      lat: selectedPosition.lat,
+      lng: selectedPosition.lng,
+      status: 'pending',
+    },
+  ])
 
     if (error) {
       console.error(error)
@@ -279,6 +283,8 @@ async function load2024Network() {
     setIsAnonymous(true)
     setSelectedPosition(null)
     setIsFormOpen(false)
+    setContactInfo('')
+setCanShare(true)
 
     setMessage('Story submitted. It will appear after approval.')
   }
