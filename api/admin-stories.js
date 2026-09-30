@@ -83,13 +83,13 @@ export default async function handler(req, res) {
     }
   )
 
-  const { data, error } = await supabaseAdmin
-    .from('stories')
-    .select(
-      'id, created_at, story_text, display_name, is_anonymous, route, lat, lng, status'
-    )
-    .eq('status', 'pending')
-    .order('created_at', { ascending: true })
+const { data, error } = await supabaseAdmin
+  .from('stories')
+  .select(
+    'id, created_at, story_text, display_name, is_anonymous, contact_info, can_share, route, lat, lng, status'
+  )
+  .eq('status', 'pending')
+  .order('created_at', { ascending: true })
 
   if (error) {
     console.error('Pending stories error:', error)

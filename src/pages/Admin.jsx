@@ -314,6 +314,28 @@ export default function Admin() {
                 </div>
               </div>
 
+              <div className="moderation-details">
+  <div>
+    <span className="detail-label">
+      Contact Info
+    </span>
+
+    <span className="detail-value">
+      {story.contact_info || 'Not provided'}
+    </span>
+  </div>
+
+  <div>
+    <span className="detail-label">
+      Permission to Share
+    </span>
+
+    <span className="detail-value">
+      {story.can_share ? 'Yes' : 'No'}
+    </span>
+  </div>
+</div>
+
               <div className="moderation-location">
                 <span className="detail-label">
                   Location
