@@ -3,6 +3,7 @@ import {
   MapContainer,
   TileLayer,
   Marker,
+  CircleMarker,
   Popup,
   GeoJSON,
   useMapEvents,
@@ -99,6 +100,27 @@ function MapSizeFix() {
   return null
 }
 
+function FlyToUserLocation({ userLocation }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!userLocation) {
+      return
+    }
+
+    map.flyTo(
+      [userLocation.lat, userLocation.lng],
+      17,
+      {
+        animate: true,
+        duration: 1.2,
+      }
+    )
+  }, [userLocation, map])
+
+  return null
+}
+
 
 export default function App() {
   const [routes2022, setRoutes2022] = useState(null)
@@ -114,6 +136,8 @@ export default function App() {
   const [selectedNetwork, setSelectedNetwork] = useState('2026')
 
   const [selectedPosition, setSelectedPosition] = useState(null)
+  const [userLocation, setUserLocation] = useState(null)
+const [isLocating, setIsLocating] = useState(false)
   const [approvedStories, setApprovedStories] = useState([])
 
   const [storyText, setStoryText] = useState('')
@@ -229,7 +253,9 @@ async function load2024Network() {
   async function fetchApprovedStories() {
     const { data, error } = await supabase
       .from('stories')
-      .select('*')
+      .select(
+  'id, created_at, story_text, display_name, is_anonymous, route, lat, lng'
+)
       .eq('status', 'approved')
       .order('created_at', { ascending: false })
 
@@ -240,6 +266,61 @@ async function load2024Network() {
 
     setApprovedStories(data || [])
   }
+
+function findMyLocation() {
+  if (!navigator.geolocation) {
+    setMessage('Location services are not supported by this browser.')
+    return
+  }
+
+  setIsLocating(true)
+  setMessage('')
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const location = {
+  lat: position.coords.latitude,
+  lng: position.coords.longitude,
+  accuracy: position.coords.accuracy,
+}
+
+      setUserLocation(location)
+      setIsLocating(false)
+
+      console.log('Current location:', location)
+    },
+
+    (error) => {
+      console.error('Geolocation error:', error)
+
+      setIsLocating(false)
+
+      if (error.code === error.PERMISSION_DENIED) {
+        setMessage(
+          'Location access was denied. You can still tap the map to choose a location.'
+        )
+      } else if (error.code === error.POSITION_UNAVAILABLE) {
+        setMessage(
+          'Your current location could not be determined. You can still tap the map.'
+        )
+      } else if (error.code === error.TIMEOUT) {
+        setMessage(
+          'Finding your location took too long. Please try again or tap the map.'
+        )
+      } else {
+        setMessage(
+          'Your location could not be found. You can still tap the map.'
+        )
+      }
+    },
+
+    {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 30000,
+    }
+  )
+}
 
 
   async function submitStory(event) {
@@ -412,6 +493,7 @@ function bindStopPopup(feature, layer) {
   zoomControl={false}
 >
   <MapSizeFix />
+    <FlyToUserLocation userLocation={userLocation} />
 
   <TileLayer
     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/">CARTO</a>'
@@ -496,6 +578,19 @@ function bindStopPopup(feature, layer) {
   setHasInteractedWithMap={setHasInteractedWithMap}
 />
 
+{userLocation && (
+  <CircleMarker
+    center={[userLocation.lat, userLocation.lng]}
+    radius={8}
+    pathOptions={{
+      color: '#ffffff',
+      weight: 3,
+      fillColor: '#0854a0',
+      fillOpacity: 1,
+    }}
+  />
+)}
+
         {selectedPosition && (
           <Marker position={selectedPosition} />
         )}
@@ -535,6 +630,15 @@ function bindStopPopup(feature, layer) {
           </Marker>
         ))}
       </MapContainer>
+
+      <button
+  type="button"
+  className="location-button"
+  onClick={findMyLocation}
+  disabled={isLocating}
+>
+  {isLocating ? 'Locating...' : 'My Location'}
+</button>
 
 
 {isNetworkOpen ? (

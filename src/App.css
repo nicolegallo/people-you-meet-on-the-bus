@@ -768,3 +768,31 @@ select:focus-visible {
 .indygo-logo-link:hover {
   opacity: 0.8;
 }
+
+.location-button {
+  position: absolute;
+  right: 20px;
+  bottom: 90px;
+  z-index: 1000;
+
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #ffffff;
+  color: #0854a0;
+
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 700;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+
+  cursor: pointer;
+}
+
+.location-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
