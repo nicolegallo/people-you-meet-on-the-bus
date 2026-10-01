@@ -633,11 +633,23 @@ function bindStopPopup(feature, layer) {
 
       <button
   type="button"
-  className="location-button"
+  className={`location-button ${isLocating ? 'is-locating' : ''}`}
   onClick={findMyLocation}
   disabled={isLocating}
+  aria-label={isLocating ? 'Finding your location' : 'Find my location'}
+  title="My Location"
 >
-  {isLocating ? 'Locating...' : 'My Location'}
+  <svg
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v3" />
+    <path d="M12 19v3" />
+    <path d="M2 12h3" />
+    <path d="M19 12h3" />
+    <circle cx="12" cy="12" r="8" />
+  </svg>
 </button>
 
 

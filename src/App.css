@@ -775,24 +775,55 @@ select:focus-visible {
   bottom: 90px;
   z-index: 1000;
 
-  padding: 10px 14px;
+  width: 58px;
+  height: 58px;
+  padding: 0;
 
-  border: none;
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-  background: #ffffff;
-  color: #0854a0;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
 
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 700;
+  background: #2fb62f;
+  color: #ffffff;
 
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
 
   cursor: pointer;
 }
 
+
+
+.location-button svg {
+  width: 28px;
+  height: 28px;
+
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .location-button:disabled {
-  opacity: 0.65;
   cursor: wait;
+}
+
+.location-button.is-locating svg {
+  animation: location-pulse 1s ease-in-out infinite;
+}
+
+@keyframes location-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.55;
+    transform: scale(0.85);
+  }
 }
